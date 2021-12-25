@@ -1,0 +1,164 @@
+
+#search_p{
+    margin-right: 10px;
+    height:34px;;
+}
+#search_btn{
+    height:34px;
+}
+.small_font{
+    font-size:11px;
+}
+
+
+.table_column{
+    display: flex;
+    .cur_price{
+        width: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        b{
+            font-weight: normal;
+            margin-left:10px;
+            color:#f00;
+        }
+    }
+    .btn{
+        margin-left:10px;
+    }
+    input[type="number"]{
+        width:80px;
+    }
+    .my_loading{
+        width:80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.modal-dialog{
+    .modal-body{
+        label{
+            position: relative;
+
+            &.box_input{
+                margin-bottom: 20px;;
+            }
+            
+            .error_text{
+                color: #fff;
+                display: block;
+                position: absolute;
+                background: #f00;
+                padding: 4px 10px;
+                border-radius: 5px;
+                /* margin-top: 5px; */
+                /* margin-right: 10px; */
+                bottom: 3px;
+                right: 3px;
+                text-align: right;
+                font-weight: 500;
+                font-size: 11px;
+                line-height: 1em;  
+                display: none;           
+            }
+            .error_text.shx{
+                display: block;
+            }
+        }
+
+
+        .checkbox_outter{
+            border: 1px solid #a9a9a9;
+            border-radius: 5px;
+            padding: 5px 0 5px 0;
+            margin-bottom: 15px;
+            height:150px;
+            overflow-y: scroll;
+            .child_item{
+                padding-left:15px;
+                margin-bottom: 10px;
+            }
+            .child_item2{
+                padding-left:30px;
+                margin-bottom: 10px;
+            }
+            .child_item3{
+                padding-left:45px;
+                margin-bottom: 10px;
+            }
+            .form-group{
+                margin-bottom: 0;
+                .form-check{
+                    padding-left:10px;
+                    display:flex;
+                    align-items: center;
+                    margin-bottom: 10px;;
+                    &:last-child{
+                        margin-bottom: 0px;;
+                    }
+                    input{
+                        display: block;
+                        position: relative;
+                        margin-top: 3px;
+                    }
+                    label{
+                        display: block;
+                        margin-bottom: 0;;
+                        font-size: 14px;;
+                        font-weight: normal;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+#aloha_app{
+    .dropdown-item{
+        padding: 0 13px 5px;
+        font-size: 14px;
+    }
+    .level0{
+        padding-top:5px;
+    }
+    .level1{
+        padding-top:5px;
+        padding-left:40px
+    }
+    .level2{
+        padding-top:5px;
+        padding-left:60px
+    }
+    .level3{
+        padding-top:5px;
+        padding-left:80px
+    }
+    .level4{
+        padding-top:0;
+        padding-left:100px
+    }
+}
+
+
+.dfx2{
+    display: flex;    
+    align-items: center;
+
+    input[type="number"]{
+        width:70px;
+        margin-left: 10px;
+        font-weight: 500;;
+    }
+}
+
+.error_import_list{
+    padding-left:20px;
+    .error_list{
+        font-size:13px;
+        padding: 2px 5px;
+    }
+}

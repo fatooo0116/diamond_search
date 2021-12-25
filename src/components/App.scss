@@ -1,0 +1,113 @@
+
+@import "../sass/rwd.scss";
+@import "../sass/nav.scss";
+@import "../sass/modal.scss";
+@import "../sass/form.scss";
+@import "../sass/header.scss";
+
+@import "../sass/chkbox1.scss";
+
+@import "../sass/product.scss";
+@import "../sass/price.scss";
+@import "../sass/lib/switch.scss";
+// @import "../sass/bootstrap.min.scss";
+
+#wpcontent{
+  background-color: #f8f8fb;
+}
+
+
+.curx{
+  position: relative;
+  &:after{
+    position: absolute;;
+    width:100%;
+    height:2px;
+    background:#1cfcff;
+    content:'';
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.navbar-expand-lg .navbar-nav a,
+.navbar-expand-lg .navbar-nav a:active{
+  outline:none ! important;
+  box-shadow: none;
+}
+.navbar-expand-lg .navbar-nav a:hover{
+  color:#1cfcff;
+}
+.nav-item{
+  outline:none;
+  box-shadow: none;
+}
+
+
+
+#aloha_app{
+
+  font-family:'Poppins',sans-serif;
+
+  .table thead th{
+    border-bottom:0px;
+  }
+  
+  .card{
+    margin-bottom: 24px;
+    box-shadow: 0 0.75rem 1.5rem rgba(18,38 ,63 ,0.03);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid #f6f6f6;
+    border-radius: .25rem;
+    padding:0;
+
+    h3{
+      font-size: 20px;;
+    }
+
+    .card-body{
+      padding:10px 20px 15px;
+      border:0px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 0 solid #f6f6f6;
+      border-radius: .25rem;
+      font-size: 13px;;
+
+      thead{
+        background:#eff2f7;        
+      }
+      th{
+        border:0px;
+      }
+      th,td{
+        padding: .75rem;
+        border-color: #eff2f7;
+      }
+    }
+
+  }
+}
+
+
+@media (min-width: 768px){
+  .container, .container-md, .container-sm, .card{
+      max-width: none ! important;
+  }
+}
+
+
+.update-nag.notice-warning{
+  display:none;
+}
