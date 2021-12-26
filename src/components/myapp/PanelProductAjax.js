@@ -16,7 +16,6 @@ import { get_all_product, del_product,get_product_type } from './rest/func_rest_
 import DataTable, { createTheme } from 'react-data-table-component';
 import Switch from 'react-bootstrap-switch';
 
-import CatDropDown from './header/CatDropDown';
 
 
 
@@ -126,32 +125,7 @@ class PanelProductAjax extends React.Component {
 
 
 
-    /*   綁定 Woo Product [begin]  */
-    handleAction = (data) =>{          
-      let me = this;
-      axios.post('/wp-json/cargo/v1/bind_woo_prod_by_page', {
-        checked:this.state.checked,
-      })
-      .then(function (res) {
-        // console.log(res);
 
-       // console.log("reload");
-
-        /*
-        get_all_product(function(data){
-          me.setState({
-            data:data,           
-            checked:[],
-            filterText:''
-          }); 
-        });
-        */
-
-         me.fetch_cur_page();
-
-      });      
-    }
-  /*   綁定 Woo Product [end]  */
 
 
 
@@ -679,17 +653,16 @@ class PanelProductAjax extends React.Component {
 
                 <div className="small_nav">
                     <ModelProductCreate name="新增資料"   fetch_all={this.fetch_cur_page }  ptype={ptype}    />  
-                    {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除  {this.state.checked.length} </Button>  </>:''}
-                    &nbsp; {/* ( checked.length >0 )? <Button onClick={this.handleAction}>Binding Woo</Button> : '' */}
+                    {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除  {this.state.checked.length} </Button>  </>:''}                   
 
-                     <CatDropDown  dropDownHandler={this.dropDownHandler}/>              
+                               
                 </div>
 
                 <Card>
                     <div className="card-body">
 
                     <DataTable
-                        title="產品"
+                        title="圓形鑽石"
                         columns={columns}
                         data={data}
                        // pagination={true}   
@@ -719,7 +692,7 @@ class PanelProductAjax extends React.Component {
                     <div className="small_nav">
                     <ModelProductCreate name="新增資料"   fetch_all={me.fetch_cur_page}  ptype={ptype} />  
                     {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除  {this.state.checked.length} </Button>  </>:''}
-                    &nbsp; <Button onClick={this.handleAction}>Binding Woo</Button>
+                    
                 </div>
             </Container>            
         )
