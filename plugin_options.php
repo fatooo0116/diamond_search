@@ -27,7 +27,7 @@ class WP_React_Plugin_Options {
 
     // $this->plugin_options_page = add_menu_page('WP React Plugin', 'WP React Plugin', 'manage_options', __FILE__, array( $this, 'render_plugin_options_page' ) ,  );
 
-     $this->plugin_options_page = add_submenu_page( 'edit.php?post_type=product', '伯思美設定', '伯思美設定','manage_options','ddg-product', array( $this, 'render_plugin_options_page'));
+     $this->plugin_options_page = add_submenu_page( 'edit.php?post_type=product', '鑽石分類設定', '鑽石分類設定','manage_options','ddg-product', array( $this, 'render_plugin_options_page'));
   }
 
   public function render_plugin_options_page() {

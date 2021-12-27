@@ -7,9 +7,9 @@ import {
         } from 'react-bootstrap';
 
 
-import { edit_dep } from '../rest/func_restdep';
+import { edit_style } from '../rest/func_rest_style';
 
-class ModelDepEdit extends React.Component {
+class ModelstyleEdit extends React.Component {
     constructor(props) {
         super(props);
 
@@ -28,8 +28,8 @@ class ModelDepEdit extends React.Component {
       const { pdata } = this.props;
        
       let fields = {
-        dep_id: pdata.dep_id,
-        dep_name: pdata.dep_name,
+        type_id: pdata.type_id,
+        type_name: pdata.type_name,
       };
       
       this.setState({
@@ -44,14 +44,11 @@ class ModelDepEdit extends React.Component {
       let errors = {};
       let formIsValid = true;
 
-     if(!fields["dep_name"]){
+     if(!fields["type_name"]){
         formIsValid = false;
-        errors["dep_name"] = "Cannot be empty";
+        errors["type_name"] = "Cannot be empty";
      }
-     if(!fields["dep_id"]){
-      formIsValid = false;
-       errors["dep_id"] = "Cannot be empty";
-    }
+
 
      this.setState({errors: errors});
      return formIsValid;
@@ -93,9 +90,8 @@ class ModelDepEdit extends React.Component {
           let fields = me.state;
 
           console.log(fields);
-
           
-          edit_dep(fields,function(data){
+          edit_style(fields,function(data){
           
                      
             me.setState({
@@ -119,7 +115,7 @@ class ModelDepEdit extends React.Component {
 
     render() {
 
-      const {is_Open, dep_id, dep_name } = this.state;
+      const {is_Open, dep_id, type_name } = this.state;
       const {name} = this.props;
 
      // console.log(this.props);
@@ -137,14 +133,11 @@ class ModelDepEdit extends React.Component {
             </Modal.Header>
 
             <Modal.Body>            
-              <label>
-                部門編號: <input type="text" onChange={this.handleChange.bind(this, "dep_id")} value={this.state.fields["dep_id"]} />
-                <span className="error_text" style={{color: "red"}}>{this.state.errors["dep_id"]}</span>
-              </label>
+
 
               <label>
-                業務名稱: <input type="text" onChange={this.handleChange.bind(this, "dep_name")} value={this.state.fields["dep_name"]} />
-                <span className="error_text" style={{color: "red"}}>{this.state.errors["dep_name"]}</span>
+              車工: <input type="text" onChange={this.handleChange.bind(this, "type_name")} value={this.state.fields["type_name"]} />
+                <span className="error_text" style={{color: "red"}}>{this.state.errors["type_name"]}</span>
               </label>
             </Modal.Body>
             
@@ -163,4 +156,4 @@ class ModelDepEdit extends React.Component {
   }
 
 
-export default hot(module)(ModelDepEdit);
+export default hot(module)(ModelstyleEdit);

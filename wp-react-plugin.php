@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: WP React Plugin
-Description: Develop React apps inside WordPress. Uses React Hot Loader to update changes in real time while also preserving React state.
+Plugin Name: Diamond Plugin
+Description: Diamond plugin
 Version: 0.0.1
-Author: David Gwyer
-Author URI: http://www.wpgoplugins.com
+Author: Mike HSU
+Author URI: https://aloha-tech.com
 */
 
 class WP_React_Plugin {
@@ -59,3 +59,8 @@ require "db/db.php";
 
 /*  api */
 require "api/api.php";
+require "api/carat.php";
+require "api/ccolor.php";
+require "api/clean.php";
+require "api/style.php";   /* 花式形狀 */
+require "api/fcolor.php"; /* 彩鑽石顏色 */

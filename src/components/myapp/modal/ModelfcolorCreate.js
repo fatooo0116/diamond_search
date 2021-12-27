@@ -6,11 +6,11 @@ import {
          Modal
         } from 'react-bootstrap';
 
-import {create_dep } from '../rest/func_restdep';
+import {create_fcolor } from '../rest/func_rest_fcolor';
 
         
 
-class ModelDepCreate extends React.Component {
+class ModelfcolorCreate extends React.Component {
     constructor(props) {
         super(props);
 
@@ -22,9 +22,8 @@ class ModelDepCreate extends React.Component {
     }
     
 
-    componentDidMount() {
+    componentDidMount() { }
 
-    }
 
     handleShow = () =>{
       this.setState({
@@ -46,14 +45,12 @@ class ModelDepCreate extends React.Component {
       let errors = {};
       let formIsValid = true;
 
-     if(!fields["dep_name"]){
+      
+     if(!fields["type_name"]){
         formIsValid = false;
-        errors["dep_name"] = "Cannot be empty";
+        errors["type_name"] = "Cannot be empty";
      }
-     if(!fields["dep_id"]){
-      formIsValid = false;
-       errors["dep_id"] = "Cannot be empty";
-    }
+
 
      this.setState({errors: errors});
      return formIsValid;
@@ -75,7 +72,7 @@ class ModelDepCreate extends React.Component {
          // console.log(fields);
           
        
-          create_dep(fields,function(data){
+          create_fcolor(fields,function(data){
             me.setState({
               is_Open:false,
               fields: {}
@@ -125,14 +122,11 @@ class ModelDepCreate extends React.Component {
           </Modal.Header>
 
           <Modal.Body>            
-            <label>
-              部門編號: <input type="text" onChange={this.handleChange.bind(this, "dep_id")} value={this.state.fields["dep_id"]} />
-              <span className="error_text" style={{color: "red"}}>{this.state.errors["dep_id"]}</span>
-            </label>
+    
 
             <label>
-              業務名稱: <input type="text" onChange={this.handleChange.bind(this, "dep_name")} value={this.state.fields["dep_name"]} />
-              <span className="error_text" style={{color: "red"}}>{this.state.errors["dep_name"]}</span>
+            彩鑽顏色: <input type="text" onChange={this.handleChange.bind(this, "type_name")} value={this.state.fields["type_name"]} />
+              <span className="error_text" fcolor={{color: "red"}}>{this.state.errors["type_name"]}</span>
             </label>
           </Modal.Body>
           
@@ -152,4 +146,4 @@ class ModelDepCreate extends React.Component {
   }
 
 
-export default hot(module)(ModelDepCreate);
+export default hot(module)(ModelfcolorCreate);

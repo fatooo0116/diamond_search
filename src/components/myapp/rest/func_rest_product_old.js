@@ -16,6 +16,10 @@ function get_all_product(callback){
 };
 
 
+
+
+
+
 function del_product(checked,callback){    
   axios.post('/wp-json/cargo/v1/del_product', {
       checked: checked,      

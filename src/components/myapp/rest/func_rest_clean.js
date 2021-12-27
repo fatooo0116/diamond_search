@@ -1,8 +1,7 @@
-
 import axios from 'axios';
 
-function get_all_dep(callback){    
-    axios.post('/wp-json/cargo/v1/get_dep', {
+function get_all_clean(callback){    
+    axios.post('/wp-json/cargo/v1/get_clean', {
         page: 1,
         post_per_page: 99900
       })
@@ -16,8 +15,8 @@ function get_all_dep(callback){
 };
 
 
-function del_dep(checked,callback){    
-  axios.post('/wp-json/cargo/v1/del_dep', {
+function del_clean(checked,callback){    
+  axios.post('/wp-json/cargo/v1/del_clean', {
       checked: checked,      
     })
     .then(function (res) {
@@ -30,9 +29,9 @@ function del_dep(checked,callback){
 };
 
 
-function create_dep(obj,callback){   
+function create_clean(obj,callback){   
 
-  axios.post('/wp-json/cargo/v1/create_dep', obj)
+  axios.post('/wp-json/cargo/v1/create_clean', obj)
     .then(function (res) {
      //  console.log(res);
       return callback(res.data);       
@@ -43,10 +42,10 @@ function create_dep(obj,callback){
     
 };
 
-function edit_dep(obj,callback){   
+function edit_clean(obj,callback){   
   console.log(obj);
   
-  axios.post('/wp-json/cargo/v1/edit_dep', obj)
+  axios.post('/wp-json/cargo/v1/edit_clean', obj)
     .then(function (res) {
      
       return callback(res.data);       
@@ -58,4 +57,9 @@ function edit_dep(obj,callback){
 };
   
 
-export { get_all_dep,del_dep,create_dep,edit_dep}
+export { 
+        get_all_clean,
+        del_clean,
+        create_clean,
+        edit_clean
+      }

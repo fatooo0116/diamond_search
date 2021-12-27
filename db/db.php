@@ -43,7 +43,9 @@ function product_meta_db() {
 
     style varchar(30) NOT NULL,  /* 車工 花式才有 */
     mcolor varchar(10) NOT NULL, /*  彩鑽 顏色  */
-    
+
+    gia_link varchar(150) NOT NULL,
+    sale_price varchar(120) NOT NULL,
  
     UNIQUE KEY id (id)
   ) $charset_collate;";
@@ -51,6 +53,59 @@ function product_meta_db() {
 
 
 
+  $table_name = $wpdb->prefix . 'carat';
+  $sql = "CREATE TABLE $table_name (
+    id int(9) NOT NULL AUTO_INCREMENT,     
+    type_name  varchar(150) NOT NULL,   
+    oid int(9) NOT NULL,
+    UNIQUE KEY id (id)
+  ) $charset_collate;";
+  dbDelta( $sql );
+
+
+
+
+
+$table_name = $wpdb->prefix . 'dmcolor';
+  $sql = "CREATE TABLE $table_name (
+    id int(9) NOT NULL AUTO_INCREMENT,     
+    type_name  varchar(150) NOT NULL,
+    oid int(9) NOT NULL,
+    UNIQUE KEY id (id)
+  ) $charset_collate;";
+  dbDelta( $sql );
+
+
+  $table_name = $wpdb->prefix . 'dmclean';
+  $sql = "CREATE TABLE $table_name (
+    id int(9) NOT NULL AUTO_INCREMENT,     
+    type_name  varchar(150) NOT NULL,
+    oid int(9) NOT NULL,
+    UNIQUE KEY id (id)
+  ) $charset_collate;";
+  dbDelta( $sql );
+
+
+  $table_name = $wpdb->prefix . 'dmstyle';
+  $sql = "CREATE TABLE $table_name (
+    id int(9) NOT NULL AUTO_INCREMENT,  
+    img_url  varchar(150) NOT NULL,  
+    type_name  varchar(150) NOT NULL,
+    oid int(9) NOT NULL,
+    UNIQUE KEY id (id)
+  ) $charset_collate;";
+  dbDelta( $sql );
+
+
+  $table_name = $wpdb->prefix . 'dmfcolor';
+  $sql = "CREATE TABLE $table_name (
+    id int(9) NOT NULL AUTO_INCREMENT,   
+    img_url  varchar(150) NOT NULL,   
+    type_name  varchar(150) NOT NULL,
+    oid int(9) NOT NULL,
+    UNIQUE KEY id (id)
+  ) $charset_collate;";
+  dbDelta( $sql );
 
 
 /*

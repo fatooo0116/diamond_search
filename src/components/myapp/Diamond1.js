@@ -8,13 +8,21 @@ import {
         } from 'react-bootstrap';
 
 
-import  ModelProductCreate from './modal/ModelProductCreate';
-import  ModelProductEdit from './modal/ModelProductEdit';
+import  ModelDiamondCreate from './modal/ModelDiamondCreate';
+
+ import  ModelDiamondEdit from './modal/ModelDiamondEdit';
         
-import { get_all_product, del_product,get_product_type } from './rest/func_rest_product';        
+
+
+/*  API */
+import { 
+    get_all_diamonds,
+   // get_all_product, 
+    del_diamond,
+    // get_product_type 
+} from './rest/func_rest_diamond';        
 
 import DataTable, { createTheme } from 'react-data-table-component';
-
 
 
 const FilterComponent = ({ filterText, onFilter, onClear }) => (
@@ -69,46 +77,42 @@ class Diamond1 extends React.Component {
     componentDidMount() {
 
       let me = this;
+
+      get_all_diamonds(function(data){
+        console.log('xx');
+        console.log(data);
+
+        me.setState({
+          data:data,
+          ori:data
+        }); 
+      });
+
+
+      /*
       get_all_product(function(data){
           me.setState({
             data:data,
             ori:data
           }); 
       });
+      */
 
 
-    
+      /*
       get_product_type(function(data){
           me.setState({
             ptype:data,            
           }); 
       });      
+      */
     }
 
 
 
 
 
-    /*   綁定 Woo Product [begin]  */
-    handleAction = (data) =>{          
-      let me = this;
-      axios.post('/wp-json/cargo/v1/bind_woo_prod_by_page', {
-        checked:this.state.checked,
-      })
-      .then(function (res) {
-        console.log(res);
-        get_all_product(function(data){
-          me.setState({
-            data:data,
-            ori:data,
-            checked:[]
-          }); 
-        });
-      });      
-    }
-  /*   綁定 Woo Product [end]  */
-
-
+   
 
 
     
@@ -116,14 +120,15 @@ class Diamond1 extends React.Component {
     
     fetch_all = () => {
       let me = this;
-      /*
-      get_all_product(function(resx){
-        me.setState({          
-          data:resx,
-          ori:resx,
-        });
+      
+      get_all_diamonds(function(data){
+    
+        me.setState({
+          data:data,
+          ori:data
+        }); 
       });
-      */
+      
     }
     
 
@@ -136,21 +141,19 @@ class Diamond1 extends React.Component {
     deleteData = () =>{
       let checked = [...this.state.checked];
       if(window.confirm('確定刪除')){
-        console.log(checked );
+         console.log(checked );
         let me = this;
-        del_product(checked,function(obj){         
+        del_diamond(checked,function(obj){         
          
-          get_all_product(function(resx){
+           get_all_diamonds(function(resx){
             me.setState({
               data:resx,
               checked:[],
              toggledClearRows: true,
              filterText:''
             });
-
-            console.log(me.state);
-           // me.handleClearRows();
           });
+
         });
       }
     }
@@ -181,7 +184,7 @@ class Diamond1 extends React.Component {
 
               onFilter={(e) => {
                 let newFilterText = e.target.value;
-                console.log(newFilterText);                
+                // console.log(newFilterText);                
                 let ori_data = [...me.state.ori];
               //  console.log(ori_data);
 
@@ -191,7 +194,7 @@ class Diamond1 extends React.Component {
                   );
            
                 
-               console.log(filteredItems);
+               // console.log(filteredItems);
                 
                 me.setState({ 
                   data:filteredItems,
@@ -236,82 +239,100 @@ class Diamond1 extends React.Component {
 
         const {data,checked,ptype} = this.state;
         // const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }];
-
-         console.log(data);
+        // console.log(data);
         
         let me = this;
 
         const columns = [
+            
           {
-            cell: (pid) => <ModelProductEdit name="Edit"  ptype={ptype}  pdata={pid}  fetch_all={me.fetch_all}   />,
+            cell: (pid) => <ModelDiamondEdit name="Edit"  ptype={ptype}  pdata={pid}  fetch_all={me.fetch_all}   />,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
             width: '50px' 
           },
           
+          
           {
-            name: '編號',
-            selector: 'product_id',
+            name: '形狀',
+            selector: 'dm_type',
             sortable: true,
             
           },
 
           {
-            name: '名稱',
-            selector: 'product_name',
-            sortable: true,   
-            grow:3,   
-            cell: (pid) => (pid.woo_id > 0)? <a href={"/wp-admin/post.php?post="+pid.woo_id+"&action=edit"}  target="_blank"  >{pid.product_name}</a> : pid.product_name , 
+            name: 'GIA編號',
+            selector: 'gia_sn',
+            sortable: true,                            
           },
           {
-            name: '英文名稱',
-            selector: 'product_eng_name',
+            name: '克拉',
+            selector: 'carat',
             sortable: true,            
           },
           {
-            name: '產品類別',
-            selector: 'cat',
-            sortable: true,
-            width: '250px',
-            cell: (pid) => (pid.cat)? <span className="small_font">{pid.cat}</span> : '' ,
+            name: '顏色',
+            selector: 'color',
+            sortable: true,           
+            cell: (pid) => <span className="small_font">D</span>  ,
           },
           {
-            name: '單位編號',
-            selector: 'unit_sn',
+            name: '淨度',
+            selector: 'clean',
             sortable: true,
             right: true,
           },
           {
-            name: '計量編號',
-            selector: 'unit_sn',
+            name: '深度',
+            selector: 'depth',
             sortable: true,            
           },
           {
-            name: '計量編號',
-            selector: 'unit_sn_cht',
+            name: '桌面',
+            selector: 'face',
             sortable: true,           
           },
           {
-            name: 'CUFT',
-            selector: 'cuft',           
+            name: '拋光',
+            selector: 'alight',           
           },
           {
-            name: '包裝ㄧ',
-            selector: 'out_pack',           
+            name: '對稱',
+            selector: 'align',           
           },
           {
-            name: '包裝二',
-            selector: 'in_pack',           
+            name: '車工',
+            selector: 'turner',           
           },
           {
-            name: '淨重',
-            selector: 'net_weight',           
+            name: '螢光',
+            selector: 'blight',           
           },
           {
-            name: '總重',
-            selector: 'gross_weight',           
+            name: '八星八劍',
+            selector: 'star8',           
           },
+
+          {
+            name: '裸石報價',
+            selector: 'price',           
+          },  
+
+          {
+            name: '狀態',
+            selector: 'is_buyable',           
+          },  
+                    
+          {
+            name: 'GIA 網址',
+            selector: 'gia_link',  
+            width: '250px',         
+          }, 
+          {
+            name: '含稅價格',
+            selector: 'sale_price',           
+          },                     
         ];
 
 
@@ -319,16 +340,16 @@ class Diamond1 extends React.Component {
             <Container id="aloha_app" >
 
                 <div className="small_nav">
-                    <ModelProductCreate name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype}   fetch_all={this.fetch_all} />  
+                    <ModelDiamondCreate name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype}   fetch_all={this.fetch_all} />  
                     {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除  {this.state.checked.length} </Button>  </>:''}
-                    &nbsp; {( checked.length >0 )? <Button onClick={this.handleAction}>Binding Woo</Button> : ''}
+                    &nbsp; 
                 </div>
 
                 <Card>
                     <div className="card-body">
 
                     <DataTable
-                        title="產品"
+                        title="圓形"
                         columns={columns}
                         data={data}
                         pagination={true}   
@@ -346,9 +367,9 @@ class Diamond1 extends React.Component {
                     </Card>
 
                     <div className="small_nav">
-                    <ModelProductCreate name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype} />  
+                    <ModelDiamondCreate name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype} />  
                     {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除  {this.state.checked.length} </Button>  </>:''}
-                    &nbsp; <Button onClick={this.handleAction}>Binding Woo</Button>
+                    
                 </div>
             </Container>            
         )
