@@ -58,9 +58,27 @@ function edit_carat(obj,callback){
 };
   
 
+
+function order_carat(obj,callback){   
+  // console.log(obj);
+  
+  axios.post('/wp-json/cargo/v1/order_carat', obj)
+    .then(function (res) {
+     
+      return callback(res.data);       
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
+};
+
+
+
 export { 
         get_all_carat,
         del_carat,
         create_carat,
-        edit_carat
+        edit_carat,
+        order_carat
       }

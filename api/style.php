@@ -12,13 +12,21 @@ add_action( 'rest_api_init', function () {
     $post_per_page = (isset($data['post_per_page'])) ? $data['post_per_page'] : 0; 
   
     global $wpdb;
-    $table_name =  $wpdb->prefix . 'dmstyle';;
+    $table_name =  $wpdb->prefix . 'dmstyle' ;;
   
     
     // $sql = "SELECT * FROM $table_name order by type_name*1 ASC" ;
-    $sql = "SELECT * FROM $table_name " ;
+    $sql = "SELECT * FROM $table_name order by oid" ; ;
     // $sql .= ' order by product_id ASC';
     $results = $wpdb->get_results($sql);
+
+    foreach($results as $item){
+      if($item->img_url){
+        $item->img_path = wp_get_attachment_image_src($item->img_url,'full');
+      }
+    }
+
+
     if(!empty($results)){  
         return $results;
       // return  $page.' '.$post_per_page ;
@@ -88,8 +96,11 @@ add_action( 'rest_api_init', function () {
     
     $result = $wpdb->insert($table_name , array(     
         // 'dep_id' => (isset($data['dep_id'])) ? $data['dep_id'] : 0,
-        'type_name' => (isset($data['type_name'])) ? $data['type_name'] : '' ,             
+        'type_name' => (isset($data['fields']['type_name'])) ? $data['fields']['type_name'] : '' ,       
+        'img_url' => (isset($data['attachment_id'])) ? $data['attachment_id'] : '' ,          
     ));
+
+
 
     $last_id = $wpdb->insert_id;
     $result = $wpdb->update( $table_name, array('oid'=>$last_id), array('id' => $last_id) );
@@ -156,7 +167,8 @@ add_action( 'rest_api_init', function () {
         
         $obj = array(
         // 'dep_id' => (isset($data['fields']['dep_id'])) ? $data['fields']['dep_id'] : 0,
-        'type_name' => (isset($data['fields']['type_name'])) ? $data['fields']['type_name'] : ''
+        'type_name' => (isset($data['fields']['type_name'])) ? $data['fields']['type_name'] : '',
+        'img_url' => (isset($data['attachment_id'])) ? $data['attachment_id'] : '' 
         );
 
         global $wpdb;
@@ -166,3 +178,49 @@ add_action( 'rest_api_init', function () {
         return $data;
         
     }
+
+
+
+
+
+    /*  ===========   Edit ORder  ===========  */
+    add_action( 'rest_api_init', function () {
+      register_rest_route( 'cargo/v1', '/order_style', array(
+      'methods' => 'POST',
+      'callback' => 'order_style_handler',
+      ) );
+  });
+
+
+  function order_style_handler($res){
+  
+      global $wpdb;
+      $table_name =  $wpdb->prefix . 'dmstyle';;
+
+      foreach($res['order'] as $item){
+
+        $obj = array(
+          // 'dep_id' => (isset($data['fields']['dep_id'])) ? $data['fields']['dep_id'] : 0,
+          'oid' => (isset($item['idx'])) ? $item['idx'] : 0
+        );
+        $result = $wpdb->update( $table_name, $obj, array('id' => $item['id']) );
+      }
+      
+
+      $sql = "SELECT * FROM $table_name order by oid" ;
+      // $sql .= ' order by product_id ASC';
+      $results = $wpdb->get_results($sql);
+      if(!empty($results)){  
+          return $results;
+        // return  $page.' '.$post_per_page ;
+         // return $sql;
+      }else{
+        return 0;
+      }
+
+      
+    
+      // $result = $wpdb->update( $table_name, $obj, array('id' => $data['cur_id']) );
+      return $results;
+      
+  }

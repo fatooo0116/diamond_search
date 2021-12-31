@@ -19,7 +19,9 @@ class ModelfcolorEdit extends React.Component {
          /*  form  */
          fields: {},
          cur_id:0,
-         errors: {}
+         errors: {},
+         attachment_id:0,
+         attachment_path:''
         }
     }
     
@@ -28,15 +30,26 @@ class ModelfcolorEdit extends React.Component {
       const { pdata } = this.props;
        
       let fields = {
-        type_id: pdata.type_id,
+        attachment_id: pdata.type_id,
         type_name: pdata.type_name,
       };
-      
-      this.setState({
-        fields : fields,
-        cur_id:pdata.id 
-      });
+
+      if(pdata.img_url){
+        this.setState({
+          fields : fields,
+          attachment_id:pdata.img_url,
+          attachment_path:pdata.img_path[0],
+          cur_id:pdata.id 
+        });
+      }else{
+        this.setState({
+          fields : fields,
+          cur_id:pdata.id 
+        });
+      }
     }
+
+
 
 
     handleValidation(){
@@ -58,10 +71,23 @@ class ModelfcolorEdit extends React.Component {
 
 
     handleShow = () =>{
+      let me = this;
       this.setState({
         is_Open:true
       });
+      wp.media.editor.send.attachment = function(props, attachment){
+        let { fields } = me.state;
+
+        // fields.trade_mark = attachment.url;     
+        // let  woo_post_id = me.props.pdata.woo_id;
+        // alert('upload '+attachment.id);
+        me.setState({
+          attachment_id:attachment.id,
+          attachment_path:attachment.url
+        });
+      }       
     }
+
 
 
     
@@ -80,18 +106,22 @@ class ModelfcolorEdit extends React.Component {
 
 
 
-    handleSubmit = (e) =>{
+   handleSubmit = (e) =>{
       e.preventDefault();
 
       let me = this;
 
       if(this.handleValidation()){
           
-          let fields = me.state;
+          let {fields,attachment_id,cur_id} = me.state;
 
-          console.log(fields);
+        //  console.log(fields);
           
-          edit_fcolor(fields,function(data){
+          edit_fcolor({
+            cur_id:cur_id,
+            fields:fields,           
+            attachment_id:attachment_id
+          },function(data){
           
                      
             me.setState({
@@ -112,10 +142,20 @@ class ModelfcolorEdit extends React.Component {
 
 
 
+    medaiUpload = () =>{
+      window.wp.media.editor.open();    
+    }
+
+
+
+
+
+
 
     render() {
 
-      const {is_Open, dep_id, type_name } = this.state;
+      const {is_Open,
+        attachment_path, } = this.state;
       const {name} = this.props;
 
      // console.log(this.props);
@@ -139,6 +179,13 @@ class ModelfcolorEdit extends React.Component {
               彩鑽顏色: <input type="text" onChange={this.handleChange.bind(this, "type_name")} value={this.state.fields["type_name"]} />
                 <span className="error_text" fcolor={{color: "red"}}>{this.state.errors["type_name"]}</span>
               </label>
+              <label className="dfx-wrap">
+                    圖片: <Button onClick={this.medaiUpload} size="sm" >Upload</Button>
+                    <div className="preview">
+                        {(attachment_path)? <img src={attachment_path}  onClick={this.medaiUpload} /> :''}
+                    </div>
+                </label>      
+
             </Modal.Body>
             
 

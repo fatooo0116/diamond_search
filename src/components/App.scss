@@ -10,10 +10,20 @@
 @import "../sass/product.scss";
 @import "../sass/price.scss";
 @import "../sass/lib/switch.scss";
+
+@import "../sass/lib/switch.scss";
+
+@import "../sass/left_order_panel";
+
 // @import "../sass/bootstrap.min.scss";
 
 #wpcontent{
   background-color: #f8f8fb;
+}
+
+
+.mr10{
+  margin-right:10px;
 }
 
 

@@ -55,6 +55,8 @@ class PanelStyle extends React.Component {
     
       let me = this;
       get_all_style(function(resx){
+        // console.log(resx);
+
         me.setState({data:resx});
       });
     }
@@ -72,7 +74,7 @@ class PanelStyle extends React.Component {
     deleteData = () =>{
         let checked = [...this.state.checked];
         if(window.confirm('確定刪除')){
-          console.log(checked );
+          // console.log(checked );
           let me = this;
           del_style(checked,function(obj){         
            
@@ -85,9 +87,16 @@ class PanelStyle extends React.Component {
 
 
 
+
+
+
     fetch_all = () => {
       let me = this;
+
       get_all_style(function(resx){
+
+       
+
         me.setState({
           data:resx
         });
@@ -143,17 +152,19 @@ class PanelStyle extends React.Component {
             selector: 'id',
             sortable: true,
           },
+
+          {
+            name: '圖片',
+            selector: 'img_url',
+            sortable: true,      
+            cell: (pid) => (pid.img_path)? <img src={pid.img_path[0]}  style={{'height':'20px'}} /> : '' ,      
+          },
+
           {
             name: '車工',
             selector: 'type_name',
             sortable: true,            
-          },
-          {
-            name: '圖片',
-            selector: 'img_url ',
-            sortable: true,            
-          },
-
+          }
         ];
 
 

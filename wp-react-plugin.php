@@ -64,3 +64,7 @@ require "api/ccolor.php";
 require "api/clean.php";
 require "api/style.php";   /* 花式形狀 */
 require "api/fcolor.php"; /* 彩鑽石顏色 */
+
+
+/*  Front End shortcode */
+require "frontend/scode.php";

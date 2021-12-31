@@ -7,13 +7,14 @@ import {
          Button
         } from 'react-bootstrap';
 
+
 import  ModelCaratCreate from './modal/ModelCaratCreate';
 import  ModelCaratEdit from './modal/ModelCaratEdit';
 
-
+import  OrderPanel from './order/OrderPanel';
 
 import DataTable, { createTheme } from 'react-data-table-component';
-import { get_all_carat, del_carat } from './rest/func_restcarat';
+import { get_all_carat, del_carat,order_carat } from './rest/func_restcarat';
 
 
 
@@ -46,7 +47,8 @@ class PanelCarat extends React.Component {
         this.state = {
           data: [],
           checked:[],
-          toggledClearRows: false
+          toggledClearRows: false,
+          leftMenu:0
         }
     }
 
@@ -111,6 +113,13 @@ class PanelCarat extends React.Component {
 
 
 
+
+
+
+
+
+
+
     handleChange = (state) => {
       // You can use setState or dispatch with something like Redux so we can use the retrieved data
       this.setState({checked:state.selectedRows})
@@ -122,15 +131,40 @@ class PanelCarat extends React.Component {
   
 
 
+    /*  Order */
+    updateOrder = (data) =>{
+      let me = this;
+
+      var new_order = [];
+      for(var oc in data){       
+        new_order.push(
+            {
+                id : data[oc].id,
+                idx : oc
+            }
+        )
+     }
+
+      me.setState({
+        data:data
+      });
+
+
+      order_carat({'order':new_order},function(res){
+        me.setState({
+          data:res
+        });
+      });
+    }
+
 
 
 
     render() {
-
-        const {data,checked} = this.state;
+        const {data,checked,leftMenu} = this.state;
         // const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }];
-
        
+
         const columns = [
           {
             cell: (pid) => <ModelCaratEdit name="Edit"  pdata={pid}   fetch_all={this.fetch_all}  />,
@@ -159,8 +193,17 @@ class PanelCarat extends React.Component {
 
                 <div className="small_nav">
                     <ModelCaratCreate name="新增資料"    fetch_all={this.fetch_all} />  
-                    {( checked.length >0 )? <Button onClick={this.deleteData} >DEL</Button>:''}
+                    <button   class="btn btn-outline-dark mr10" onClick={()=>this.setState({'leftMenu': !this.state.leftMenu}) }>排序</button>
+                    {( checked.length >0 )? <Button onClick={this.deleteData} >刪除</Button>:''}
+                    
                 </div>
+
+
+                <div className={(leftMenu)? "left_nav_pox open" : "left_nav_pox"} >
+                  <OrderPanel  pdata={data}  updateOrder={this.updateOrder }/>
+                </div>
+
+
 
                    <Card>                    
                       <div className="card-body">                   

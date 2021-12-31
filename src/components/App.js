@@ -90,7 +90,9 @@ class App extends React.Component {
                   <NavDropdown.Item onClick={()=>{ this.setState({table:5}); }}>圓形顏色</NavDropdown.Item>                 
                   <NavDropdown.Item onClick={()=>{ this.setState({table:6}); }}>淨度</NavDropdown.Item> 
                   <NavDropdown.Item onClick={()=>{ this.setState({table:7}); }}>車工</NavDropdown.Item>      
-                  <NavDropdown.Item onClick={()=>{ this.setState({table:8}); }}>彩鑽顏色</NavDropdown.Item>               
+                  <NavDropdown.Item onClick={()=>{ this.setState({table:8}); }}>彩鑽顏色</NavDropdown.Item>  
+
+                                
                 </NavDropdown>
 
                
@@ -108,7 +110,8 @@ class App extends React.Component {
           {(table==6) ? <PanelClean   /> : ''}
           {(table==7) ? <PanelStyle  /> : ''}
           {(table==8) ? <PanelFcolor  /> : ''}
-          
+
+    
          
        
        

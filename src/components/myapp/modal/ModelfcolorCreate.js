@@ -17,18 +17,34 @@ class ModelfcolorCreate extends React.Component {
         this.state = {
           is_Open:false,
           fields: {},
-          errors: {}
+          errors: {},
+          attachment_id:0
         }
     }
     
 
     componentDidMount() { }
 
+   
 
     handleShow = () =>{
       this.setState({
         is_Open:true
       });
+
+      let me = this;
+
+      wp.media.editor.send.attachment = function(props, attachment){
+        let { fields } = me.state;
+
+        // fields.trade_mark = attachment.url;     
+        // let  woo_post_id = me.props.pdata.woo_id;
+        // alert('upload '+attachment.id);
+        me.setState({
+          attachment_id:attachment.id,
+          attachment_url:attachment.url
+        });
+      }        
     }
 
 
@@ -60,19 +76,24 @@ class ModelfcolorCreate extends React.Component {
 
 
 
+
     handleSubmit = (e) =>{
       e.preventDefault();
 
       let me = this;
 
       if(this.handleValidation()){
-          console.log("create ...");
-          let fields = this.state.fields;
+          // console.log("create ...");
+          
+          let {fields,attachment_id} = this.state;
 
          // console.log(fields);
           
        
-          create_fcolor(fields,function(data){
+          create_fcolor({
+            fields:fields,           
+            attachment_id:attachment_id
+          },function(data){
             me.setState({
               is_Open:false,
               fields: {}
@@ -97,15 +118,17 @@ class ModelfcolorCreate extends React.Component {
             this.setState({fields});
         }
 
-
+        medaiUpload = () =>{
+          window.wp.media.editor.open();    
+        }
 
 
 
     render() {
-      const {is_Open, dep_id, dep_name } = this.state;
+      const {is_Open } = this.state;
       const {name,pdata} = this.props;
 
-      console.log(this.state);
+      // console.log(this.state);
     
 
       return(
@@ -122,12 +145,17 @@ class ModelfcolorCreate extends React.Component {
           </Modal.Header>
 
           <Modal.Body>            
-    
-
             <label>
             彩鑽顏色: <input type="text" onChange={this.handleChange.bind(this, "type_name")} value={this.state.fields["type_name"]} />
               <span className="error_text" fcolor={{color: "red"}}>{this.state.errors["type_name"]}</span>
             </label>
+
+              <label className="dfx-wrap">
+                    圖片: <Button onClick={this.medaiUpload} size="sm" >Upload</Button>
+                    <div className="preview">
+                        {(this.state.attachment_url)? <img src={this.state.attachment_url}  onClick={this.medaiUpload} /> :''}
+                    </div>
+              </label>
           </Modal.Body>
           
 

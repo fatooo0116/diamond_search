@@ -1,0 +1,53 @@
+#aloha_app{
+    position: relative;
+
+    // overflow-y: hidden;
+}
+
+.left_nav_pox.open{
+    left: 0;
+}
+
+.left_nav_pox{
+    left: -400px;
+    top:80px;
+    position: absolute;
+    z-index: 2;    
+    background:#fff;
+    padding:20px;
+    width: 300px;
+    transition: 0.3s;
+
+    min-height: 50vh;;
+    box-shadow: 0 2px 4px #999;
+    ul,li{
+      list-style-type: none;  
+    }
+    ul li{ margin-bottom: -1px;;}
+    .itp{
+        cursor: pointer;
+        z-index: 3 ! important;
+        list-style-type: none;
+        font-size: 13px;
+        border: 1px solid #aaa;
+        padding: 4px 10px;    
+        background:#fff;   
+        transform: scale(1);
+        transition: 0.2s; 
+        &:hover{
+            background:#efefef;
+        }
+    }
+}
+.itp{
+    cursor: pointer;
+    z-index: 3 ! important;
+    list-style-type: none;
+    font-size: 13px;
+    border: 1px solid #aaa;
+    padding: 4px 10px;    
+    background:#fff;   
+    
+    transition: 0.2s; 
+    transform: scale(1.02);
+}
