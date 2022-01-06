@@ -22,8 +22,7 @@
 
         if($("#table1").length>0){
 
-            console.log(data_num);
-
+          
 
             $.ajax({
                 type: "POST",
@@ -77,9 +76,7 @@
 
         if($("#table2").length>0){
 
-            console.log(data_num);
-
-
+          
             $.ajax({
                 type: "POST",
                 url: '/wp-json/cargo/v1/fe_get_diamonds2',
@@ -128,8 +125,9 @@
                 },                
               });
 
-
         }
+
+
 
 
 

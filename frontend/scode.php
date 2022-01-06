@@ -18,7 +18,7 @@ function wpdocs_footag1_func( $atts ) {
                     <ul>
                         <li class="active">
                             <a href="#" class="t1"></a>
-                            <span>形狀</span>
+                            <span>圓形</span>
                         </li>
                         <li>
                             <a href="#" class="t2"></a>
@@ -106,7 +106,7 @@ function wpdocs_footag1_func( $atts ) {
                 
                 <div class="control">
                     <a href="#" class="search" >搜尋</a>
-                    <a href="#" class="clear" >清除</a>
+                    <a href="#" class="clear" ><i class="fa fa-times"></i> 清除</a>
                 </div>
             </div>
 
@@ -130,11 +130,7 @@ function wpdocs_footag1_func( $atts ) {
             <div class="data-container" ></div>
         </div>
 
-        <script>
-            let data_num = [1, 2, 3, 4, 5, 6];
-  
-            
-        </script>
+    
 
     <?php
     $output = ob_get_contents();
@@ -168,7 +164,7 @@ function wpdocs_footag2_func( $atts ) {
                     <ul>
                         <li>
                             <a href="#" class="t1"></a>
-                            <span>形狀</span>
+                            <span>圓形</span>
                         </li>
                         <li class="active">
                             <a href="#" class="t2"></a>
@@ -218,7 +214,7 @@ function wpdocs_footag2_func( $atts ) {
                 
                 <div class="control">
                     <a href="#" class="search" >搜尋</a>
-                    <a href="#" class="clear" >清除</a>
+                    <a href="#" class="clear" > <i class="fa fa-times"></i> 清除</a>
                 </div>
             </div>
 
@@ -275,7 +271,7 @@ function wpdocs_footag3_func( $atts ) {
                     <ul>
                         <li>
                             <a href="#" class="t1"></a>
-                            <span>形狀</span>
+                            <span>圓形</span>
                         </li>
                         <li>
                             <a href="#" class="t2"></a>
@@ -324,7 +320,7 @@ function wpdocs_footag3_func( $atts ) {
                 
                 <div class="control">
                     <a href="#" class="search" >搜尋</a>
-                    <a href="#" class="clear" >清除</a>
+                    <a href="#" class="clear" > <i class="fa fa-times"></i> 清除</a>
                 </div>
             </div>
 
