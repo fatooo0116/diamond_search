@@ -10,10 +10,11 @@ import {
 import  ModelcleanCreate from './modal/ModelcleanCreate';
 import  ModelcleanEdit from './modal/ModelcleanEdit';
 
+import  OrderPanel from './order/OrderPanel';
 
 
 import DataTable, { createTheme } from 'react-data-table-component';
-import { get_all_clean, del_clean } from './rest/func_rest_clean';
+import { get_all_clean, del_clean ,order_clean} from './rest/func_rest_clean';
 
 
 
@@ -46,7 +47,8 @@ class PanelClean extends React.Component {
         this.state = {
           data: [],
           checked:[],
-          toggledClearRows: false
+          toggledClearRows: false,
+          leftMenu:0
         }
     }
 
@@ -122,12 +124,39 @@ class PanelClean extends React.Component {
   
 
 
+   /*  Order */
+   updateOrder = (data) =>{
+    let me = this;
+
+    var new_order = [];
+    for(var oc in data){       
+      new_order.push(
+          {
+              id : data[oc].id,
+              idx : oc
+          }
+      )
+   }
+
+    me.setState({
+      data:data
+    });
+
+
+    order_clean({'order':new_order},function(res){
+      me.setState({
+        data:res
+      });
+    });
+  }
+
+
 
 
 
     render() {
 
-        const {data,checked} = this.state;
+        const {data,checked,leftMenu} = this.state;
         // const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }];
 
        
@@ -138,11 +167,15 @@ class PanelClean extends React.Component {
             allowOverflow: true,
             button: true,
           },
+          
+          /*
           {
             name: '編號',
             selector: 'id',
             sortable: true,
           },
+          */
+
           {
             name: '淨度',
             selector: 'type_name',
@@ -159,14 +192,22 @@ class PanelClean extends React.Component {
 
                 <div className="small_nav">
                     <ModelcleanCreate name="新增資料"    fetch_all={this.fetch_all} />  
+                    <button   class="btn btn-outline-dark mr10" onClick={()=>this.setState({'leftMenu': !this.state.leftMenu}) }>排序</button>
                     {( checked.length >0 )? <Button onClick={this.deleteData} >DEL</Button>:''}
                 </div>
+
+
+                <div className={(leftMenu)? "left_nav_pox open" : "left_nav_pox"} >
+                  <a href="#" className="cancel"  onClick={()=>this.setState({'leftMenu': !this.state.leftMenu}) } >x</a>
+                  <OrderPanel  pdata={data}  updateOrder={this.updateOrder }/>
+                </div>
+
 
                    <Card>                    
                       <div className="card-body">                   
 
                         <DataTable
-                            title="淨度"
+                            title="圓形鑽 - 淨度"
                             columns={columns}
                             data={data}
                             pagination={true}   

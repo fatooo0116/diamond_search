@@ -176,7 +176,7 @@ add_action( 'rest_api_init', function () {
 
     /*  ===========   Edit ORder  ===========  */
     add_action( 'rest_api_init', function () {
-      register_rest_route( 'cargo/v1', '/order_dmcolor', array(
+      register_rest_route( 'cargo/v1', '/order_ccolor', array(
       'methods' => 'POST',
       'callback' => 'order_dmcolor_handler',
       ) );

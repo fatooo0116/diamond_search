@@ -189,9 +189,7 @@ add_action( 'rest_api_init', function () {
       $table_name =  $wpdb->prefix . 'carat';;
       
       
-      global $wpdb;
-      $table_name =  $wpdb->prefix . 'carat';;
-
+ 
       foreach($res['order'] as $item){
 
         $obj = array(

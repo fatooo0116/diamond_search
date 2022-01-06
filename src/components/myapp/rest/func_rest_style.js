@@ -56,11 +56,30 @@ function edit_style(obj,callback){
     });
     
 };
+
+
+
+
+function order_style(obj,callback){   
+  // console.log(obj);
+  
+  axios.post('/wp-json/cargo/v1/order_style', obj)
+    .then(function (res) {
+     
+      return callback(res.data);       
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
+};
+
   
 
 export { 
         get_all_style,
         del_style,
         create_style,
-        edit_style
+        edit_style,
+        order_style
       }

@@ -23,6 +23,9 @@ import { hot } from "react-hot-loader";
 
 
 import Diamond1 from './myapp/Diamond1';
+import Diamond2 from './myapp/Diamond2';
+import Diamond3 from './myapp/Diamond3';
+
 import PanelCarat  from './myapp/PanelCarat';
 import PanelCcolor  from './myapp/PanelCcolor';
 import PanelClean  from './myapp/PanelClean';
@@ -86,9 +89,9 @@ class App extends React.Component {
 
 
                 <NavDropdown className={(table>3)? 'curx':''} title="設定" id="basic-nav-dropdown">
-                  <NavDropdown.Item onClick={()=>{ this.setState({table:4}); }}>克拉</NavDropdown.Item>     
-                  <NavDropdown.Item onClick={()=>{ this.setState({table:5}); }}>圓形顏色</NavDropdown.Item>                 
-                  <NavDropdown.Item onClick={()=>{ this.setState({table:6}); }}>淨度</NavDropdown.Item> 
+                  <NavDropdown.Item onClick={()=>{ this.setState({table:4}); }}>圓形鑽 - 克拉</NavDropdown.Item>     
+                  <NavDropdown.Item onClick={()=>{ this.setState({table:5}); }}>圓形鑽 - 顏色</NavDropdown.Item>                 
+                  <NavDropdown.Item onClick={()=>{ this.setState({table:6}); }}>圓形鑽 - 淨度</NavDropdown.Item> 
                   <NavDropdown.Item onClick={()=>{ this.setState({table:7}); }}>車工</NavDropdown.Item>      
                   <NavDropdown.Item onClick={()=>{ this.setState({table:8}); }}>彩鑽顏色</NavDropdown.Item>  
 
@@ -102,8 +105,8 @@ class App extends React.Component {
           </Navbar>
 
           {(table==1) ? <Diamond1   /> : ''}
-          {(table==2) ? <Diamond1   /> : ''}
-          {(table==3) ? <Diamond1   /> : ''}
+          {(table==2) ? <Diamond2   /> : ''}
+          {(table==3) ? <Diamond3   /> : ''}
          
           {(table==4) ? <PanelCarat   /> : ''}
           {(table==5) ? <PanelCcolor   /> : ''}

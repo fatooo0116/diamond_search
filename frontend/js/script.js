@@ -20,26 +20,177 @@
 
         
 
-        if($(".data-container").length>0){
+        if($("#table1").length>0){
 
             console.log(data_num);
 
-            $(".data-container").pagination({
-                dataSource: data_num,
-                pageSize: 15,
-                showPrevious: false,
-                showNext: false,
-                callback: function(response, pagination) {
-                    // template method of yourself
-                    var dataHtml = '<ul>';                
-                    $.each(response, function (index, item) {
-                     dataHtml += '<li><div class="t1">' + item + '</div></li>';
-                    });
-                    dataHtml += '</ul>';
-                    $(".data-container").prev().html(dataHtml)
-                }
-            })
+
+            $.ajax({
+                type: "POST",
+                url: '/wp-json/cargo/v1/fe_get_diamonds',
+                data: {},
+                success: function(data){
+
+                    console.log(data);
+
+                    $(".data-container").pagination({
+                        dataSource: data,
+                        pageSize: 15,
+                        showPrevious: false,
+                        showNext: false,
+                        callback: function(response, pagination) {
+                            // template method of yourself
+                            var dataHtml = '';                
+                            $.each(response, function (index, item) {
+                                dataHtml += '<div class="xrow">'
+                                dataHtml += '<div class="t1"><div class="r_dm"></div></div>';
+                                dataHtml += '<div class="t2">' + item.item.gia_sn + '</div>';
+                                dataHtml += '<div class="t3">' + item.item.carat + '</div>';
+                                dataHtml += '<div class="t4">' + item.dm_color + '</div>';
+                                dataHtml += '<div class="t5">' + item.dm_clean + '</div>';
+                                dataHtml += '<div class="t6">' + item.item.depth + '</div>';
+                                dataHtml += '<div class="t7">' + item.item.face + '</div>';
+                                dataHtml += '<div class="t8">' + item.item.alight + '</div>';
+                                dataHtml += '<div class="t9">' + item.item.align + '</div>';
+                                dataHtml += '<div class="t10">' + item.item.turner + '</div>';
+                                dataHtml += '<div class="t11">' + item.item.blight + '</div>';
+                                dataHtml += '<div class="t12">' + item.item.star8 + '</div>';
+                                dataHtml += '<div class="t13">' + item.item.price + '</div>';
+                                dataHtml += '<div class="t14">' + item.item.is_buyable + '</div>';
+                                dataHtml += '</div>'
+                                dataHtml += '<div class="sub_row"><a href="'+item.item.gia_link+'"  target="_blank" class="ht1">GIA證書連結：' + item.item.gia_sn + '</a><span class="ht1">含稅價格：' + item.item.sale_price + '</span></div>';
+
+                            });
+                            
+                            $(".data-container").prev().html(dataHtml);
+                            $(".xrow").on('click',function(){
+                                $(this).next(".sub_row").toggleClass('open');
+                            });
+                        }
+                    })
+
+                },                
+              });
         }
+
+
+
+        if($("#table2").length>0){
+
+            console.log(data_num);
+
+
+            $.ajax({
+                type: "POST",
+                url: '/wp-json/cargo/v1/fe_get_diamonds2',
+                data: {},
+                success: function(data){
+
+                    console.log(data);
+
+                    $(".data-container").pagination({
+                        dataSource: data,
+                        pageSize: 15,
+                        showPrevious: false,
+                        showNext: false,
+                        callback: function(response, pagination) {
+                            // template method of yourself
+                            var dataHtml = '';                
+                            $.each(response, function (index, item) {
+                                dataHtml += '<div class="xrow">'
+                                dataHtml += '<div class="t1"><img src="'+item.dm_type_img+'" /></div>';
+                                dataHtml += '<div class="t2">' + item.item.gia_sn + '</div>';
+                                dataHtml += '<div class="t3">' + item.item.carat + '</div>';
+                                dataHtml += '<div class="t4">' + item.item.color + '</div>';
+                                dataHtml += '<div class="t5">' + item.item.clean + '</div>';
+                                dataHtml += '<div class="t6">' + item.item.depth + '</div>';
+                                dataHtml += '<div class="t7">' + item.item.face + '</div>';
+                                dataHtml += '<div class="t8">' + item.item.alight + '</div>';
+                                dataHtml += '<div class="t9">' + item.item.align + '</div>';
+                               // dataHtml += '<div class="t10">' + item.turner + '</div>';
+                                dataHtml += '<div class="t11">' + item.item.blight + '</div>';
+                               // dataHtml += '<div class="t12">' + item.star8 + '</div>';
+                                dataHtml += '<div class="t13">' + item.item.price + '</div>';
+                                dataHtml += '<div class="t14">' + item.item.is_buyable + '</div>';
+                                dataHtml += '</div>'
+                                dataHtml += '<div class="sub_row"><a href="'+item.item.gia_link+'"  target="_blank" class="ht1">GIA證書連結：' + item.item.gia_sn + '</a><span class="ht1">含稅價格：' + item.item.sale_price + '</span></div>';
+
+                            });
+                            
+                            $(".data-container").prev().html(dataHtml);
+                            
+                            $(".xrow").on('click',function(){
+                                $(this).next(".sub_row").toggleClass('open');
+                            });
+                        }
+                    })
+
+                },                
+              });
+
+
+        }
+
+
+
+
+
+        if($("#table3").length>0){
+
+            // console.log(data_num);
+
+
+            $.ajax({
+                type: "POST",
+                url: '/wp-json/cargo/v1/fe_get_diamonds3',
+                data: {},
+                success: function(data){
+
+                    console.log(data);
+
+                    $(".data-container").pagination({
+                        dataSource: data,
+                        pageSize: 15,
+                        showPrevious: false,
+                        showNext: false,
+                        callback: function(response, pagination) {
+                            // template method of yourself
+                            var dataHtml = '';                
+                            $.each(response, function (index, item) {
+                                dataHtml += '<div class="xrow">'
+                                dataHtml += '<div class="t1"><img src="'+item.dm_type_img+'" /></div>';
+                                dataHtml += '<div class="t2">' + item.item.gia_sn + '</div>';
+                                dataHtml += '<div class="t3">' + item.item.carat + '</div>';
+                                dataHtml += '<div class="t4">' + item.item.color + '</div>';
+                                dataHtml += '<div class="t5">' + item.item.clean + '</div>';
+                                dataHtml += '<div class="t6">' + item.item.depth + '</div>';
+                                dataHtml += '<div class="t7">' + item.item.face + '</div>';
+                                dataHtml += '<div class="t8">' + item.item.alight + '</div>';
+                                dataHtml += '<div class="t9">' + item.item.align + '</div>';
+                               // dataHtml += '<div class="t10">' + item.turner + '</div>';
+                                dataHtml += '<div class="t11">' + item.item.blight + '</div>';
+                               // dataHtml += '<div class="t12">' + item.star8 + '</div>';
+                                dataHtml += '<div class="t13">' + item.item.price + '</div>';
+                                dataHtml += '<div class="t14">' + item.item.is_buyable + '</div>';                            
+                                dataHtml += '</div>';
+                                dataHtml += '<div class="sub_row"><a href="'+item.item.gia_link+'"  target="_blank" class="ht1">GIA證書連結：' + item.item.gia_sn + '</a><span class="ht1">含稅價格：' + item.item.sale_price + '</span></div>';
+
+
+                            });
+                            
+                            $(".data-container").prev().html(dataHtml);
+                            $(".xrow").on('click',function(){
+                                $(this).next(".sub_row").toggleClass('open');
+                            });
+                        }
+                    })
+
+                },                
+              });
+
+
+        }        
+
 
 
     });

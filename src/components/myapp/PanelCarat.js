@@ -172,11 +172,7 @@ class PanelCarat extends React.Component {
             allowOverflow: true,
             button: true,
           },
-          {
-            name: '編號',
-            selector: 'id',
-            sortable: true,
-          },
+   
           {
             name: '克拉數',
             selector: 'type_name',
@@ -200,6 +196,7 @@ class PanelCarat extends React.Component {
 
 
                 <div className={(leftMenu)? "left_nav_pox open" : "left_nav_pox"} >
+                  <a href="#" className="cancel"  onClick={()=>this.setState({'leftMenu': !this.state.leftMenu}) } >x</a>
                   <OrderPanel  pdata={data}  updateOrder={this.updateOrder }/>
                 </div>
 
@@ -209,7 +206,7 @@ class PanelCarat extends React.Component {
                       <div className="card-body">                   
 
                         <DataTable
-                            title="克拉"
+                            title="圓形鑽 - 克拉"
                             columns={columns}
                             data={data}
                             pagination={true}   

@@ -22,3 +22,13 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+
+.circle_d{
+    background-image:url('img/shape_00.png');
+    background-size: 90%;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+}

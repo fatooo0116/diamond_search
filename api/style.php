@@ -12,7 +12,7 @@ add_action( 'rest_api_init', function () {
     $post_per_page = (isset($data['post_per_page'])) ? $data['post_per_page'] : 0; 
   
     global $wpdb;
-    $table_name =  $wpdb->prefix . 'dmstyle' ;;
+    $table_name =  $wpdb->prefix . 'dmstyle2' ;;
   
     
     // $sql = "SELECT * FROM $table_name order by type_name*1 ASC" ;
@@ -23,6 +23,7 @@ add_action( 'rest_api_init', function () {
     foreach($results as $item){
       if($item->img_url){
         $item->img_path = wp_get_attachment_image_src($item->img_url,'full');
+        $item->img_path2 = wp_get_attachment_image_src($item->img_url2,'full');
       }
     }
 
@@ -52,7 +53,7 @@ add_action( 'rest_api_init', function () {
     $pid = (isset($data['checked'])) ? $data['checked'] : 0; 
   
     global $wpdb;
-    $table_name =  $wpdb->prefix . 'dmstyle';;
+    $table_name =  $wpdb->prefix . 'dmstyle2';;
     
 
     foreach($pid as $in){
@@ -84,7 +85,7 @@ add_action( 'rest_api_init', function () {
   function create_style_handler($data){
 
     global $wpdb;
-    $table_name =  $wpdb->prefix . 'dmstyle';;
+    $table_name =  $wpdb->prefix . 'dmstyle2';;
 
   //  $dep_id = (isset($data['dep_id'])) ? $data['dep_id'] : 0; 
   //  $dep_name = (isset($data['dep_name'])) ? $data['dep_name'] : 0;
@@ -97,7 +98,8 @@ add_action( 'rest_api_init', function () {
     $result = $wpdb->insert($table_name , array(     
         // 'dep_id' => (isset($data['dep_id'])) ? $data['dep_id'] : 0,
         'type_name' => (isset($data['fields']['type_name'])) ? $data['fields']['type_name'] : '' ,       
-        'img_url' => (isset($data['attachment_id'])) ? $data['attachment_id'] : '' ,          
+        'img_url' => (isset($data['attachment_id'])) ? $data['attachment_id'] : '' ,    
+        'img_url2' => (isset($data['attachment_id2'])) ? $data['attachment_id2'] : '' ,         
     ));
 
 
@@ -135,7 +137,7 @@ add_action( 'rest_api_init', function () {
          
         
           global $wpdb;
-          $table_name =  $wpdb->prefix . 'dmstyle';;
+          $table_name =  $wpdb->prefix . 'dmstyle2';;
         
           
           $sql = "SELECT * FROM $table_name where id=".$pid;
@@ -168,11 +170,12 @@ add_action( 'rest_api_init', function () {
         $obj = array(
         // 'dep_id' => (isset($data['fields']['dep_id'])) ? $data['fields']['dep_id'] : 0,
         'type_name' => (isset($data['fields']['type_name'])) ? $data['fields']['type_name'] : '',
-        'img_url' => (isset($data['attachment_id'])) ? $data['attachment_id'] : '' 
+        'img_url' => (isset($data['attachment_id'])) ? $data['attachment_id'] : '', 
+        'img_url2' => (isset($data['attachment_id2'])) ? $data['attachment_id2'] : ''
         );
 
         global $wpdb;
-        $table_name =  $wpdb->prefix . 'dmstyle';;
+        $table_name =  $wpdb->prefix . 'dmstyle2';;
 
         $result = $wpdb->update( $table_name, $obj, array('id' => $data['cur_id']) );
         return $data;
@@ -195,7 +198,7 @@ add_action( 'rest_api_init', function () {
   function order_style_handler($res){
   
       global $wpdb;
-      $table_name =  $wpdb->prefix . 'dmstyle';;
+      $table_name =  $wpdb->prefix . 'dmstyle2';;
 
       foreach($res['order'] as $item){
 
@@ -210,6 +213,15 @@ add_action( 'rest_api_init', function () {
       $sql = "SELECT * FROM $table_name order by oid" ;
       // $sql .= ' order by product_id ASC';
       $results = $wpdb->get_results($sql);
+
+  
+      foreach($results as $item){
+        if($item->img_url){
+          $item->img_path = wp_get_attachment_image_src($item->img_url,'full');
+          $item->img_path2 = wp_get_attachment_image_src($item->img_url2,'full');
+        }
+      }
+
       if(!empty($results)){  
           return $results;
         // return  $page.' '.$post_per_page ;

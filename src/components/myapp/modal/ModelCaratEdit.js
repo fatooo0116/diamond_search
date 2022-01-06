@@ -94,11 +94,13 @@ class ModelDepEdit extends React.Component {
           edit_carat(fields,function(data){
           
                      
-            me.setState({
-              is_Open:false,
-              fields: {}
+
+            me.props.fetch_all(function(){
+              me.setState({
+                is_Open:false,
+                fields: {}
+              });
             });
-            me.props.fetch_all();
             
             
           });

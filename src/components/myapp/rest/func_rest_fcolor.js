@@ -56,11 +56,27 @@ function edit_fcolor(obj,callback){
     });
     
 };
+
+
+function order_fcolor(obj,callback){   
+  // console.log(obj);
+  
+  axios.post('/wp-json/cargo/v1/order_fcolor', obj)
+    .then(function (res) {
+     
+      return callback(res.data);       
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
+};
   
 
 export { 
         get_all_fcolor,
         del_fcolor,
         create_fcolor,
-        edit_fcolor
-      }
+        edit_fcolor,
+        order_fcolor
+}

@@ -195,7 +195,7 @@ add_action( 'rest_api_init', function () {
 
 
       global $wpdb;
-      $table_name =  $wpdb->prefix . 'fcolor';;
+      $table_name =  $wpdb->prefix . 'dmfcolor';;
 
       foreach($res['order'] as $item){
 
@@ -205,11 +205,20 @@ add_action( 'rest_api_init', function () {
         );
         $result = $wpdb->update( $table_name, $obj, array('id' => $item['id']) );
       }
+
+      
       
 
       $sql = "SELECT * FROM $table_name order by oid" ;
       // $sql .= ' order by product_id ASC';
       $results = $wpdb->get_results($sql);
+
+      foreach($results as $item){
+        if($item->img_url){
+          $item->img_path = wp_get_attachment_image_src($item->img_url,'full');
+        }
+      }
+
       if(!empty($results)){  
           return $results;
         // return  $page.' '.$post_per_page ;

@@ -18,7 +18,8 @@ class ModelstyleCreate extends React.Component {
           is_Open:false,
           fields: {},
           errors: {},
-          attachment_id:0
+          attachment_id:0,
+          attachment_id2:0
         }
     }
     
@@ -33,19 +34,7 @@ class ModelstyleCreate extends React.Component {
       let me = this;
       this.setState({
         is_Open:true
-      });
-
-      wp.media.editor.send.attachment = function(props, attachment){
-        let { fields } = me.state;
-
-        // fields.trade_mark = attachment.url;     
-        // let  woo_post_id = me.props.pdata.woo_id;
-        // alert('upload '+attachment.id);
-        me.setState({
-          attachment_id:attachment.id,
-          attachment_url:attachment.url
-        });
-      }        
+      });      
     }
 
 
@@ -83,15 +72,16 @@ class ModelstyleCreate extends React.Component {
       let me = this;
 
       if(this.handleValidation()){
-          console.log("create ...");
-          let {fields,attachment_id} = this.state;
+        //  console.log("create ...");
+          let {fields,attachment_id,attachment_id2} = this.state;
 
          // console.log(fields);
           
        
           create_style({
             fields:fields,           
-            attachment_id:attachment_id
+            attachment_id:attachment_id,
+            attachment_id2:attachment_id2
           },function(data){
             me.setState({
               is_Open:false,
@@ -116,20 +106,50 @@ class ModelstyleCreate extends React.Component {
                 fields[field] = e.target.value;        
                 this.setState({fields});
             }
-
+        
 
         medaiUpload = () =>{
+          let me =  this;
+
           window.wp.media.editor.open();    
+          wp.media.editor.send.attachment = function(props, attachment){
+            let { fields } = me.state;
+    
+            // fields.trade_mark = attachment.url;     
+            // let  woo_post_id = me.props.pdata.woo_id;
+            // alert('upload '+attachment.id);
+            me.setState({
+              attachment_id:attachment.id,
+              attachment_url:attachment.url
+            });
+          }            
         }
 
 
+        medaiUpload2 = () =>{
+
+          let me =  this;
+
+          window.wp.media.editor.open();    
+          wp.media.editor.send.attachment = function(props, attachment){
+            let { fields } = me.state;
+    
+            // fields.trade_mark = attachment.url;     
+            // let  woo_post_id = me.props.pdata.woo_id;
+            // alert('upload '+attachment.id);
+            me.setState({
+              attachment_id2:attachment.id,
+              attachment_url2:attachment.url
+            });
+          }            
+        }
 
 
     render() {
       const {is_Open} = this.state;
       const {name,pdata} = this.props;
 
-      console.log(this.state);
+      // console.log(this.state);
     
 
       return(
@@ -152,12 +172,22 @@ class ModelstyleCreate extends React.Component {
                     <span className="error_text" style={{color: "red"}}>{this.state.errors["type_name"]}</span>
                   </label>
 
+                  <hr/>   
+
                   <label className="dfx-wrap">
                     產品圖片: <Button onClick={this.medaiUpload} size="sm" >Upload</Button>
                     <div className="preview">
                         {(this.state.attachment_url)? <img src={this.state.attachment_url}  onClick={this.medaiUpload} /> :''}
                     </div>
                   </label>
+                  <hr/>   
+
+                  <label className="dfx-wrap">
+                    產品圖片: <Button onClick={this.medaiUpload2} size="sm" >Upload</Button>
+                    <div className="preview">
+                        {(this.state.attachment_url2)? <img src={this.state.attachment_url2}  onClick={this.medaiUpload2} /> :''}
+                    </div>
+                  </label>                  
             </Modal.Body>
           
 

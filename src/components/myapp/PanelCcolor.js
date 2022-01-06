@@ -10,10 +10,11 @@ import {
 import  ModelccolorCreate from './modal/ModelccolorCreate';
 import  ModelccolorEdit from './modal/ModelccolorEdit';
 
+import  OrderPanel from './order/OrderPanel';
 
 
 import DataTable, { createTheme } from 'react-data-table-component';
-import { get_all_ccolor, del_ccolor } from './rest/func_rest_ccolor';
+import { get_all_ccolor, del_ccolor,order_ccolor } from './rest/func_rest_ccolor';
 
 
 
@@ -46,7 +47,8 @@ class PanelCcolor extends React.Component {
         this.state = {
           data: [],
           checked:[],
-          toggledClearRows: false
+          toggledClearRows: false,
+          leftMenu:0
         }
     }
 
@@ -124,10 +126,40 @@ class PanelCcolor extends React.Component {
 
 
 
+       /*  Order */
+       updateOrder = (data) =>{
+        let me = this;
+  
+        var new_order = [];
+        for(var oc in data){       
+          new_order.push(
+              {
+                  id : data[oc].id,
+                  idx : oc
+              }
+          )
+       }
+  
+        me.setState({
+          data:data
+        });
+  
+  
+        order_ccolor({'order':new_order},function(res){
+          me.setState({
+            data:res
+          });
+        });
+      }
+
+
+
+
+
 
     render() {
 
-        const {data,checked} = this.state;
+        const {data,checked,leftMenu} = this.state;
         // const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }];
 
        
@@ -138,11 +170,7 @@ class PanelCcolor extends React.Component {
             allowOverflow: true,
             button: true,
           },
-          {
-            name: '編號',
-            selector: 'id',
-            sortable: true,
-          },
+
           {
             name: '顏色',
             selector: 'type_name',
@@ -159,14 +187,22 @@ class PanelCcolor extends React.Component {
 
                 <div className="small_nav">
                     <ModelccolorCreate name="新增資料"    fetch_all={this.fetch_all} />  
+                    <button   class="btn btn-outline-dark mr10" onClick={()=>this.setState({'leftMenu': !this.state.leftMenu}) }>排序</button>
                     {( checked.length >0 )? <Button onClick={this.deleteData} >DEL</Button>:''}
                 </div>
+
+
+                <div className={(leftMenu)? "left_nav_pox open" : "left_nav_pox"} >
+                  <a href="#" className="cancel"  onClick={()=>this.setState({'leftMenu': !this.state.leftMenu}) } >x</a>
+                  <OrderPanel  pdata={data}  updateOrder={this.updateOrder }/>
+                </div>
+
 
                    <Card>                    
                       <div className="card-body">                   
 
                         <DataTable
-                            title="圓形鑽顏色"
+                            title="圓形鑽 - 顏色"
                             columns={columns}
                             data={data}
                             pagination={true}   

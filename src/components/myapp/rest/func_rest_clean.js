@@ -57,9 +57,27 @@ function edit_clean(obj,callback){
 };
   
 
+
+
+function order_clean(obj,callback){   
+  // console.log(obj);
+  
+  axios.post('/wp-json/cargo/v1/order_clean', obj)
+    .then(function (res) {
+     
+      return callback(res.data);       
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
+};
+
+
 export { 
         get_all_clean,
         del_clean,
         create_clean,
-        edit_clean
+        edit_clean,
+        order_clean
       }

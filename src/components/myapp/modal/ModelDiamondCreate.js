@@ -9,12 +9,13 @@ import {
          Row
         } from 'react-bootstrap';
 
- import {
+import {
         create_diamond,
        
          } from '../rest/func_rest_diamond';      
 
-    
+
+
 // import ProductTypeCheckBox from './tpl/ProductTypeCheckBox';
     
 
@@ -25,34 +26,26 @@ class ModelDiamondCreate extends React.Component {
         this.state = {
           is_Open:false,
           fields: {},
-          errors: {},
-          ptype_checked:[],
-          attachment_id:0
+          errors: {},                
         }
     }
     
 
-    componentDidMount(){}
-
-    handleShow = () =>{
+    componentDidMount(){
       let me = this;
-      this.setState({
-        is_Open:true
-      });
 
-      wp.media.editor.send.attachment = function(props, attachment){
-        let { fields } = me.state;
 
-        // fields.trade_mark = attachment.url;     
-        // let  woo_post_id = me.props.pdata.woo_id;
-        // alert('upload '+attachment.id);
-        me.setState({
-          attachment_id:attachment.id,
-          attachment_url:attachment.url
-        });
-      }        
+      
     }
 
+
+
+
+    handleShow = () =>{      
+      this.setState({
+        is_Open:true
+      });      
+    }
 
 
     handleClose = () =>{     
@@ -67,12 +60,28 @@ class ModelDiamondCreate extends React.Component {
       let errors = {};
       let formIsValid = true;
 
-      /*
-     if(!fields["product_id"]){
+      
+      if(!fields["gia_sn"]){
         formIsValid = false;
-        errors["product_id"] = "此為必填";
+        errors["gia_sn"] = "此為必填";
      }
-     
+
+     if(!fields["carat"]){
+        formIsValid = false;
+        errors["carat"] = "此為必填";
+     }
+
+    if(!fields["color"]){
+      formIsValid = false;
+      errors["color"] = "此為必填";
+    }
+
+    if(!fields["clean"]){
+      formIsValid = false;
+      errors["clean"] = "此為必填";
+    }    
+
+     /*
      if(!fields["product_name"]){
       formIsValid = false;
        errors["product_name"] = "此為必填";
@@ -95,29 +104,20 @@ class ModelDiamondCreate extends React.Component {
 
       if(this.handleValidation()){
           // console.log("create ...");
-          let {fields,ptype_checked,attachment_id} = this.state;
+          let {fields} = this.state;
 
-         // console.log(fields);
-
-         console.log(fields);
-          
         
          create_diamond(
            {
-             fields:fields,
-             ptype_checked:ptype_checked,
-             attachment_id:attachment_id
+             fields:fields,            
            },function(data){
             me.setState({
               is_Open:false,
-              fields: {},
-              ptype_checked:[],
-              attachment_id:0
+              fields: {},             
             });
             me.props.fetch_all();
           });
-          
-          
+                    
 
       }else{
           alert("請完成表單")
@@ -150,23 +150,54 @@ class ModelDiamondCreate extends React.Component {
         }
 
 
-    update_checked_ptype = (data) =>{
-         this.setState({ptype_checked:data});
-      }
 
 
-    medaiUpload = () =>{
-      //  window.wp.media.editor.open();    
-      }
+
+ 
   
 
 
 
     render() {
-      const {is_Open,ptype_checked,errors } = this.state;
-      const {name,ptype} = this.props;
+
+      const {is_Open, errors } = this.state;
+      const { name,
+              carat,
+              color,
+              clean
+                } = this.props;
 
       // console.log(errors);
+
+      let all_carat_html=[];
+      all_carat_html.push(<option value=""> 請選擇 </option>);
+      carat.forEach(function(item){
+        let unit = "分";
+        let dmv = item.type_name;
+
+        if(item.type_name>0.9){ 
+          unit="克拉"; 
+          dmv = item.type_name;
+        }else{
+          dmv = item.type_name *100;
+        }
+
+        all_carat_html.push(<option value={item.id}> {dmv}{unit} </option>);
+      });
+
+      let all_color_html=[];
+      all_color_html.push(<option value=""> 請選擇 </option>);
+      color.forEach(function(item){
+        all_color_html.push(<option value={item.id}> {item.type_name} </option>);
+      });
+
+
+      let all_clean_html=[];
+      all_clean_html.push(<option value=""> 請選擇 </option>);
+      clean.forEach(function(item){
+        all_clean_html.push(<option value={item.id}> {item.type_name} </option>);
+      });
+
     
 
       return(
@@ -192,28 +223,38 @@ class ModelDiamondCreate extends React.Component {
                   <label className="box_input">
                     <div className="nf7">GIA編號:</div>
                     <input type="text" onChange={this.handleChange.bind(this, "gia_sn")} value={this.state.fields["gia_sn"]} />
-                    <div className={errors.hasOwnProperty('gia_sn')? 'error_text shx':'error_text'} >{this.state.errors["gia_sn"]}</div>
+                    <div className={errors.hasOwnProperty('gia_sn')? ' shx':'error_text'} >{this.state.errors["gia_sn"]}</div>
                   </label>
 
-                  <label className="box_input">
-                      <div className="nf7">克拉: </div>
-                      <input type="text" onChange={this.handleChange.bind(this, "carat")} value={this.state.fields["carat"]} />
-                      <div className={errors.hasOwnProperty('carat')? 'error_text shx':'error_text'} >{this.state.errors["carat"]}</div>                    
-                  </label>
-
-                  <label className="box_input">
-                      <div className="nf7">顏色: </div>
-                      <input type="text" onChange={this.handleChange.bind(this, "color")} value={this.state.fields["color"]} />
-                      <span className="error_text" style={{color: "red"}}>{this.state.errors["color"]}</span>
-                  </label> 
-
- 
 
                   <label>
-                    <div className="nf7">淨度:</div> 
-                    <input type="text" onChange={this.handleChange.bind(this, "clean")} value={this.state.fields["clean"]} />
-                    <span className="error_text" style={{color: "red"}}>{this.state.errors["clean"]}</span>
-                  </label> 
+                    <div className="nf7">克拉: </div>
+                    <input type="text" onChange={this.handleChange.bind(this, "carat")} value={this.state.fields["carat"]} />
+                    <span className="shx" >{this.state.errors["carat"]}</span>
+                  </label>    
+
+
+                  {/* 下拉選單曲 */}      
+
+                  <label className="box_input">
+                    <div className="nf7">顏色:</div>
+                    <select  onChange={this.handleChange.bind(this, "color")}  value={this.state.fields["color"]} >
+                            {all_color_html}               
+                    </select>                         
+                    <div className={errors.hasOwnProperty('color')? 'color shx':'error_text'} >{this.state.errors["color"]}</div>
+                  </label>
+
+                  
+                  <label className="box_input">
+                    <div className="nf7">淨度:</div>
+                    <select  onChange={this.handleChange.bind(this, "clean")}  value={this.state.fields["clean"]} >
+                            {all_clean_html}               
+                    </select>                         
+                    <div className={errors.hasOwnProperty('clean')? 'clean shx':'error_text'} >{this.state.errors["clean"]}</div>
+                  </label>                  
+
+          
+                   {/* 下拉選單曲 end */}   
 
                   
                   <label>
@@ -268,9 +309,15 @@ class ModelDiamondCreate extends React.Component {
                   </label> 
 
                   <label>
-                    <div className="nf7">狀態:</div>  <input type="text" onChange={this.handleChange.bind(this, "is_buyable")} value={this.state.fields["is_buyable"]} />
-                    <span className="error_text" style={{color: "red"}}>{this.state.errors["is_buyable"]}</span>
-                  </label>  
+                          <div className="nf7">狀態:</div>  
+                            <select  onChange={this.handleChange.bind(this, "is_buyable")}  value={this.state.fields["is_buyable"]} >
+                              <option value=""> 請選擇 </option>
+                              <option value="可訂購">可訂購</option>
+                              <option value="需預購" >需預購</option>
+                              <option value="不可訂購" >不可訂購</option>
+                            </select>                         
+                          <span className="error_text" style={{color: "red"}}>{this.state.errors["is_buyable"]}</span>
+                        </label>  
                   
                   <label>
                     <div className="nf7">GIA網址:</div>  <input type="text" onChange={this.handleChange.bind(this, "gia_link")} value={this.state.fields["gia_link"]} />

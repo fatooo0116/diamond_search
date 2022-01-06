@@ -38,10 +38,10 @@ class WP_React_Plugin {
       // enqueue development or production React code
       if(file_exists(dirname(__FILE__) . "/dist/main.js")) {
         $handle .= 'prod';
-        wp_enqueue_script( $handle, plugins_url( "/dist/main.js", __FILE__ ), ['wp-element'], '0.1', true );
+        wp_enqueue_script( $handle, plugins_url( "/dist/main.js", __FILE__ ), ['wp-element'], '0.2', true );
       } else {
         $handle .= 'dev';
-        wp_enqueue_script( $handle, 'http://localhost:3000/assets/main.js', ['wp-element'], '0.1', true );
+        wp_enqueue_script( $handle, 'http://localhost:3000/assets/main.js', ['wp-element'], '0.2', true );
       }
     }
 }
@@ -59,6 +59,9 @@ require "db/db.php";
 
 /*  api */
 require "api/api.php";
+require "api/api2.php";
+require "api/api3.php";
+
 require "api/carat.php";
 require "api/ccolor.php";
 require "api/clean.php";

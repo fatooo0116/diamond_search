@@ -9,17 +9,23 @@ import {
 
 
 import  ModelDiamondCreate from './modal/ModelDiamondCreate';
-
- import  ModelDiamondEdit from './modal/ModelDiamondEdit';
+import  ModelDiamondEdit from './modal/ModelDiamondEdit';
         
+import  OrderPanel from './order/OrderPanel';
+
+
 
 
 /*  API */
 import { 
     get_all_diamonds,
+
+    get_modal_data,
+      
    // get_all_product, 
     del_diamond,
     // get_product_type 
+    order_diamond
 } from './rest/func_rest_diamond';        
 
 import DataTable, { createTheme } from 'react-data-table-component';
@@ -64,12 +70,15 @@ class Diamond1 extends React.Component {
         this.state = {
           data: [],
           ori:[],
-          checked:[],
-          ptype:[],
+          checked:[],          
           is_reload:0,
           isLoading:0,
           filterText:'',
-          toggledClearRows: false
+          toggledClearRows: false,
+          leftMenu:0,
+          carat:[],
+          color:[],
+          clean:[]             
         }
     }
 
@@ -89,23 +98,16 @@ class Diamond1 extends React.Component {
       });
 
 
-      /*
-      get_all_product(function(data){
-          me.setState({
-            data:data,
-            ori:data
-          }); 
+
+
+      get_modal_data(function(res){
+         console.log(res);
+        me.setState({
+          clean:res.clean,
+          carat:res.carat,
+          color:res.color,
+        });
       });
-      */
-
-
-      /*
-      get_product_type(function(data){
-          me.setState({
-            ptype:data,            
-          }); 
-      });      
-      */
     }
 
 
@@ -233,20 +235,61 @@ class Diamond1 extends React.Component {
 
 
 
+            /*  Order */
+    updateOrder = (data) =>{
+      let me = this;
+
+      var new_order = [];
+      for(var oc in data){       
+        new_order.push(
+            {
+                id : data[oc].id,
+                idx : oc
+            }
+        )
+     }
+
+      me.setState({
+        data:data
+      });
+
+
+      order_diamond({'order':new_order},function(res){
+        me.setState({
+          data:res
+        });
+      });
+    }
+
+
+   
+
+
 
 
     render() {
 
-        const {data,checked,ptype} = this.state;
+        const {
+                data,
+                checked,
+                leftMenu,
+                carat,
+                color,
+                clean   
+              } = this.state;
+              
         // const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }];
         // console.log(data);
-        
-        let me = this;
 
+        console.log("p=>");
+        console.log(data);
+
+
+        let me = this;
         const columns = [
             
           {
-            cell: (pid) => <ModelDiamondEdit name="Edit"  ptype={ptype}  pdata={pid}  fetch_all={me.fetch_all}   />,
+            cell: (pid) =>  <ModelDiamondEdit name="Edit"   carat={carat}   color={color} clean={clean}     pdata={pid}  fetch_all={me.fetch_all}   /> ,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -258,30 +301,35 @@ class Diamond1 extends React.Component {
             name: '形狀',
             selector: 'dm_type',
             sortable: true,
-            
+            cell: (pid) => <div class="circle_d"></div>,
           },
 
           {
             name: 'GIA編號',
             selector: 'gia_sn',
             sortable: true,                            
+            width: '120px' 
           },
           {
             name: '克拉',
             selector: 'carat',
-            sortable: true,            
+            sortable: true,     
+           // cell: (pid) => <span className="small_font">{pid.carat}</span> ,
+            //  cell: (pid) => <>{ (carat.length>0 && pid.carat) ? carat.filter(function(it){ return it.id==pid.carat })[0].type_name : '' }</>       
           },
           {
             name: '顏色',
             selector: 'color',
-            sortable: true,           
-            cell: (pid) => <span className="small_font">D</span>  ,
+            sortable: true,                       
+            //cell: (pid) => <span className="small_font">{pid.color}</span> ,
+            cell: (pid) => <>{ (color.length>0 && pid.color) ? color.filter(function(it){ return it.id==pid.color })[0].type_name : '' }</>  
           },
           {
             name: '淨度',
             selector: 'clean',
             sortable: true,
             right: true,
+            cell: (pid) => <>{ (clean.length>0 && pid.clean) ? clean.filter(function(it){ return it.id==pid.clean })[0].type_name : '' }</> 
           },
           {
             name: '深度',
@@ -321,7 +369,8 @@ class Diamond1 extends React.Component {
 
           {
             name: '狀態',
-            selector: 'is_buyable',           
+            selector: 'is_buyable',  
+            cell: (pid) => <>{ (pid.is_buyable) ? pid.is_buyable : '' }</>          
           },  
                     
           {
@@ -340,15 +389,25 @@ class Diamond1 extends React.Component {
             <Container id="aloha_app" >
 
                 <div className="small_nav">
-                    <ModelDiamondCreate name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype}   fetch_all={this.fetch_all} />  
-                    {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除  {this.state.checked.length} </Button>  </>:''}
+                    {( carat.length >0 )? <ModelDiamondCreate name="新增資料"    carat={carat}   color={color} clean={clean}    fetch_all={this.fetch_all }     fetch_all={this.fetch_all} />  : ''} 
+
+                    <button   class="btn btn-outline-dark mr10" onClick={()=>this.setState({'leftMenu': !this.state.leftMenu}) }>排序</button>
+
+                    {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除  </Button>  </>:''}
                     &nbsp; 
                 </div>
+
+
+                <div className={(leftMenu)? "left_nav_pox open" : "left_nav_pox"} >
+                  <a href="#" className="cancel"  onClick={()=>this.setState({'leftMenu': !this.state.leftMenu}) } >x</a>
+                  <OrderPanel  pdata={data}  updateOrder={this.updateOrder }/>
+                </div>
+
 
                 <Card>
                     <div className="card-body">
 
-                    <DataTable
+                    {(carat.length>0) ?<DataTable
                         title="圓形"
                         columns={columns}
                         data={data}
@@ -361,14 +420,14 @@ class Diamond1 extends React.Component {
                         subHeaderComponent={this.getSubHeaderComponent()}  
                         paginationPerPage="100"
                         paginationRowsPerPageOptions={["30","50","100"]}              
-                    />
+                    />:''}
 
                     </div> 
                     </Card>
 
                     <div className="small_nav">
-                    <ModelDiamondCreate name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype} />  
-                    {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除  {this.state.checked.length} </Button>  </>:''}
+                    {( carat.length >0 )? <ModelDiamondCreate name="新增資料"  carat={carat}   color={color} clean={clean}   fetch_all={this.fetch_all }   /> : ''} 
+                    {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除 </Button>  </>:''}
                     
                 </div>
             </Container>            

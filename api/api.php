@@ -16,7 +16,7 @@ function get_diamonds_handler($data){
   global $wpdb;
   $table_name =  $wpdb->prefix . 'diamond';;
 
-  $sql = "SELECT * FROM $table_name order by id ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
+  $sql = "SELECT * FROM $table_name order by oid ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
   // $sql .= ' order by product_id ASC';
   $results = $wpdb->get_results($sql,ARRAY_A);
 
@@ -24,6 +24,53 @@ function get_diamonds_handler($data){
 
   if(!empty($results)){  
       return $results;
+    // return  $page.' '.$post_per_page ;
+     // return $sql;
+  }else{
+    return 0;
+  }   
+}
+
+
+
+
+
+
+/*  get_modal_data */
+add_action( 'rest_api_init', function(){
+  register_rest_route( 'cargo/v1', '/get_modal_data', array(
+    'methods' => 'POST',
+    'callback' => 'get_modal_data_handler',
+  ) );
+});
+function get_modal_data_handler($data){
+  
+    
+
+      global $wpdb;
+      $table_name =  $wpdb->prefix . 'carat';;
+
+      $sql = "SELECT * FROM $table_name order by oid" ;
+      $results = $wpdb->get_results($sql);
+
+      $out['carat'] = $results;
+
+
+
+      $table_name =  $wpdb->prefix . 'dmcolor';;  
+      $sql = "SELECT * FROM $table_name  order by oid" ; ;
+      $results = $wpdb->get_results($sql);
+      $out['color'] = $results;
+
+
+      $table_name =  $wpdb->prefix . 'dmclean';;
+      $sql = "SELECT * FROM $table_name  order by oid" ; ;
+      $results = $wpdb->get_results($sql);
+      $out['clean'] = $results;
+
+     
+  if(!empty($out)){  
+      return $out;
     // return  $page.' '.$post_per_page ;
      // return $sql;
   }else{
@@ -223,6 +270,84 @@ function del_diamond_handler($data){
       
   }
 
+
+
+
+  /*   Front End USE   */
+
+  add_action( 'rest_api_init', function () {
+    register_rest_route( 'cargo/v1', '/fe_get_diamonds', array(
+      'methods' => 'POST',
+      'callback' => 'fe_get_diamonds_handler',
+    ) );
+  });
+  function fe_get_diamonds_handler($data){
+    
+   
+    global $wpdb;
+    $table_name =  $wpdb->prefix . 'diamond';;
+  
+    $sql = "SELECT * FROM $table_name order by oid ASC";
+    // $sql .= ' order by product_id ASC';
+    $results = $wpdb->get_results($sql,ARRAY_A);
+
+
+
+    
+    $table_name2 =  $wpdb->prefix . 'dmcolor' ;;
+    $sql2 = "SELECT * FROM $table_name2 order by oid" ; ;
+    // $sql .= ' order by product_id ASC';
+    $results_color = $wpdb->get_results($sql2);
+
+    $table_name3 =  $wpdb->prefix . 'dmclean' ;;
+    $sql3 = "SELECT * FROM $table_name3 order by oid" ; ;
+    // $sql .= ' order by product_id ASC';
+    $results_clean= $wpdb->get_results($sql3);    
+    
+    $out = array();
+    foreach($results  as $item){   
+    
+      $dm_color ='';
+      foreach($results_color as $item2){
+          if($item['color']==$item2->id){
+                    
+              $dm_color = $item2->type_name;                
+            
+          }               
+      }
+
+      $dm_clean ='';
+      foreach($results_clean as $item3){
+          if($item['clean']==$item3->id){
+                    
+            $dm_clean = $item2->type_name;                
+            
+          }               
+      }
+
+      
+      $out[] = array(
+        'item' => $item,
+        'dm_color' => $dm_color,
+        'dm_clean'=>$dm_clean
+      );
+    }
+
+
+
+
+  
+  
+  
+    if(!empty($out)){  
+        return $out;
+      // return  $page.' '.$post_per_page ;
+       // return $sql;
+    }else{
+      return 0;
+    }   
+  }
+  
 
 
 

@@ -56,11 +56,30 @@ function edit_ccolor(obj,callback){
     });
     
 };
+
+
+
+
+function order_ccolor(obj,callback){   
+  // console.log(obj);
+  
+  axios.post('/wp-json/cargo/v1/order_ccolor', obj)
+    .then(function (res) {
+     
+      return callback(res.data);       
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
+};
+
   
 
 export { 
         get_all_ccolor,
         del_ccolor,
         create_ccolor,
-        edit_ccolor
+        edit_ccolor,
+        order_ccolor
       }

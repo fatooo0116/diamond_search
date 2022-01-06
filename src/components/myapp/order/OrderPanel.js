@@ -2,18 +2,21 @@ import React, {Component} from "react";
 import { hot } from "react-hot-loader";
 
 
+
+
         import {SortableContainer, SortableElement} from 'react-sortable-hoc';
         import {arrayMoveImmutable} from 'array-move';
 
 
-    const SortableItem = SortableElement(({value}) => <li className="itp" pid={value.id}>{value.type_name}</li>);
+    const SortableItem = SortableElement(({value}) => <li className="itp" pid={value.id}>{(value.type_name)? value.type_name : value.gia_sn }</li>);
 
     const SortableList = SortableContainer(({items}) => {
         return (
             <ul>
-            {items.map((value, index) => (
+
+            {(items)? items.map((value, index) => (
                 <SortableItem key={`item-${value}`} index={index} value={value} />
-            ))}
+            )) : ''}
             </ul>
         );
     });
@@ -33,7 +36,7 @@ import { hot } from "react-hot-loader";
                 items: []
             };
 
-            const pdata = this.props.pdata;             
+           // const pdata = this.props.pdata;             
         }
 
 
@@ -42,7 +45,6 @@ import { hot } from "react-hot-loader";
         onSortEnd = ({oldIndex, newIndex}) => {                                      
             const pdata = this.props.pdata;
             let obj1  = arrayMoveImmutable(pdata, oldIndex, newIndex);
-
             this.props.updateOrder(obj1);                            
         };
 
@@ -54,7 +56,7 @@ import { hot } from "react-hot-loader";
      
 
 
-            return <SortableList items={pdata} onSortEnd={this.onSortEnd} />;
+            return <><SortableList items={pdata} onSortEnd={this.onSortEnd} /></>;
         }
     }
 

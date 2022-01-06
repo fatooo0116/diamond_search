@@ -67,33 +67,10 @@ function edit_diamond(obj,callback){
 
 
 
-/*
-
-function get_all_product(callback){    
-    axios.post('/wp-json/cargo/v1/get_products', {
-        page: 1,
-        post_per_page: 99900
-      })
-      .then(function (res) {
-        //  console.log(res);
-        return callback(res.data);       
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-};
-
-
-
-
-
-
-function del_product(checked,callback){    
-  axios.post('/wp-json/cargo/v1/del_product', {
-      checked: checked,      
-    })
+function get_modal_data(callback){    
+  axios.post('/wp-json/cargo/v1/get_modal_data',{ax:'1'})
     .then(function (res) {
-     //  console.log(res);
+      //  console.log(res);
       return callback(res.data);       
     })
     .catch(function (error) {
@@ -102,24 +79,13 @@ function del_product(checked,callback){
 };
 
 
-function create_product(obj,callback){   
-
-  axios.post('/wp-json/cargo/v1/create_product', obj)
-    .then(function (res) {
-     //  console.log(res);
-      return callback(res.data);       
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    
-};
 
 
-function edit_product(obj,callback){   
-  console.log(obj);
+
+function order_diamond(obj,callback){   
+  // console.log(obj);
   
-  axios.post('/wp-json/cargo/v1/edit_product', obj)
+  axios.post('/wp-json/cargo/v1/order_diamond', obj)
     .then(function (res) {
      
       return callback(res.data);       
@@ -129,49 +95,7 @@ function edit_product(obj,callback){
     });
     
 };
-  
 
-
-function upload_product_img(obj,callback){     
-   
-  
-  axios.post('/wp-json/cargo/v1/upload_product_img', obj)
-    .then(function (res) {
-     
-      return callback(res.data);       
-    })
-    .catch(function (error) {
-      console.log(error);
-    });        
-};
-  
-
-
-function get_product_img_and_cat(woo_id,callback){
-    axios.post('/wp-json/cargo/v1/get_product_img_and_cat',{
-      woo_id:woo_id
-    })
-    .then(function (res) {
-    
-      return callback(res.data);       
-    })
-    .catch(function (error) {
-      console.log(error);
-    });  
-}
-
-
-function get_product_type(callback){
-  axios.post('/wp-json/cargo/v1/terms','')
-  .then(function (res) {
-  
-    return callback(res.data);       
-  })
-  .catch(function (error) {
-    console.log(error);
-  });  
-}
-*/
 
 
 
@@ -184,9 +108,10 @@ export {
        //   get_product_img_and_cat,
        //   get_product_type,
 
-       
+        get_modal_data,
           get_all_diamonds,
           del_diamond,
           create_diamond,
-          edit_diamond,          
+          edit_diamond,     
+          order_diamond     
         }
