@@ -67,6 +67,8 @@ function create_diamond_handler3($data){
     'blight'=> (isset($data['fields']['blight'])) ? $data['fields']['blight'] : '', 
     'price'=> (isset($data['fields']['price'])) ? $data['fields']['price'] : '', 
     'star8'=> (isset($data['fields']['star8'])) ? $data['fields']['star8'] : '', 
+
+    'mcolor'=> (isset($data['fields']['mcolor'])) ? $data['fields']['mcolor'] : '', 
    
     'is_buyable'=> (isset($data['fields']['is_buyable'])) ? $data['fields']['is_buyable'] : '', 
     'gia_link'=> (isset($data['fields']['gia_link'])) ? $data['fields']['gia_link'] : '', 
@@ -118,6 +120,8 @@ function edit_diamond_handler3($data){
     'blight'=> (isset($data['fields']['blight'])) ? $data['fields']['blight'] : '', 
     'price'=> (isset($data['fields']['price'])) ? $data['fields']['price'] : '', 
     'star8'=> (isset($data['fields']['star8'])) ? $data['fields']['star8'] : '', 
+
+    'mcolor'=> (isset($data['fields']['mcolor'])) ? $data['fields']['mcolor'] : '', 
    
     'is_buyable'=> (isset($data['fields']['is_buyable'])) ? $data['fields']['is_buyable'] : '', 
     'gia_link'=> (isset($data['fields']['gia_link'])) ? $data['fields']['gia_link'] : '', 
@@ -266,6 +270,22 @@ function del_diamond_handler3($data){
               }
             }               
         }
+
+        /*
+        $table_name3 =  $wpdb->prefix . 'dmfcolor' ;;
+        $sql3 = "SELECT * FROM $table_name3 order by oid" ; ;        
+        $results_dm_fcolor= $wpdb->get_results($sql3);
+
+        $dm_style_img ='';
+        foreach($results_dm_fcolor as $item3){
+            if($item['mcolor']==$item3->id){
+              if($item2->img_url){
+            
+                $dm_style_img = wp_get_attachment_image_src($item2->img_url,'full')[0];;                        
+              }
+            }               
+        }
+        */
 
 
         $out[] = array(

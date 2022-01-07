@@ -30,8 +30,7 @@ class ModelDiamondEdit3 extends React.Component {
         super(props);
 
         this.state = {
-         is_Open:false,
-         ptype_checked:[],
+         is_Open:false,        
          /*  form  */
          fields: {},
          cur_id:0,
@@ -160,15 +159,18 @@ class ModelDiamondEdit3 extends React.Component {
 
     render() {
 
-      const {is_Open, ptype_checked,product_cat,errors} = this.state;
-      const {name,allStyle} = this.props;
+      const {is_Open,errors} = this.state;
+      const {name,allStyle,fcolor } = this.props;
 
       let all_style_html=[];
       allStyle.forEach(function(item){
         all_style_html.push(<option value={item.id}> {item.type_name} </option>);
       });
 
-
+      let all_fcolor_html =[];
+      fcolor.forEach(function(item){
+        all_fcolor_html.push(<option value={item.id}> {item.type_name} </option>);
+      });
      // console.log(this.props);
 
       return(
@@ -224,7 +226,17 @@ class ModelDiamondEdit3 extends React.Component {
 
 
                         <label className="box_input">
-                            <div className="nf7">顏色: </div>
+                        <div className="nf7">彩鑽顏色:</div>
+                        <select  onChange={this.handleChange.bind(this, "mcolor")}  value={this.state.fields["mcolor"]} >
+                                <option>請選擇</option>
+                                {all_fcolor_html}               
+                        </select>                         
+                        <div className={errors.hasOwnProperty('mcolor')? 'mcolor shx':'error_text'} >{this.state.errors["mcolor"]}</div>
+                      </label>   
+
+
+                        <label className="box_input">
+                            <div className="nf7">顏色敘述: </div>
                             <input type="text" onChange={this.handleChange.bind(this, "color")} value={this.state.fields["color"]} />
                             <span className="error_text" style={{color: "red"}}>{this.state.errors["color"]}</span>
                         </label>                         

@@ -42,13 +42,20 @@ function wpdocs_footag1_func( $atts ) {
                             $sql = "SELECT * FROM $table_name order by oid asc";
                             $results = $wpdb->get_results($sql);
           
-                            foreach($results as $item){ 
-                        
+                            foreach($results as $item){                         
                                 ?>
-                                <li><a href="" target="<?php echo $item->id; ?>"  ><?php echo $item->type_name; ?></a></li>
-                        <?php }?>  
-
-         
+                                <li><a href="" target="<?php echo $item->id; ?>" >
+                                    <?php 
+                                        // echo $item->type_name; 
+                                        if((int)$item->type_name < 1){
+                                            echo $item->type_name*100;
+                                            echo '分';
+                                        }else{
+                                            echo $item->type_name;
+                                            echo '克拉';
+                                        }
+                                    ?></a></li>
+                            <?php }?>           
                         
                     </ul>
                 </div>       
@@ -56,9 +63,9 @@ function wpdocs_footag1_func( $atts ) {
                 <div class="price">
                     <h3>價格(NT$)</h3>
                     <ul>
-                        <li><input type="text" id="price1" ></li>
+                        <li><input type="text" id="price1" placeholder="0"></li>
                         <li><div class="hypen">~</div></li>
-                        <li><input type="text" id="price2" ></li>                       
+                        <li><input type="text" id="price2" placeholder="10,000,000"></li>                       
                     </ul>
                 </div>                  
             </div>
@@ -202,9 +209,9 @@ function wpdocs_footag2_func( $atts ) {
                 <div class="price">
                     <h3>價格(NT$)</h3>
                     <ul>
-                        <li><input type="text" id="price1" ></li>
+                        <li><input type="text" id="price1" placeholder="0"></li>
                         <li><div class="hypen">~</div></li>
-                        <li><input type="text" id="price2" ></li>                       
+                        <li><input type="text" id="price2" placeholder="10,000,000"></li>                    
                     </ul>
                 </div>                  
             </div>
@@ -308,9 +315,9 @@ function wpdocs_footag3_func( $atts ) {
                 <div class="price">
                     <h3>價格(NT$)</h3>
                     <ul>
-                        <li><input type="text" id="price1" ></li>
+                        <li><input type="text" id="price1" placeholder="0"></li>
                         <li><div class="hypen">~</div></li>
-                        <li><input type="text" id="price2" ></li>                       
+                        <li><input type="text" id="price2" placeholder="10,000,000"></li>                       
                     </ul>
                 </div>                  
             </div>

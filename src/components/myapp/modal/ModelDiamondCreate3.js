@@ -164,13 +164,18 @@ class ModelDiamondCreate3 extends React.Component {
 
     render() {
       const {is_Open,ptype_checked,errors } = this.state;
-      const {name,allStyle} = this.props;
+      const {name,allStyle,fcolor } = this.props;
 
       let all_style_html=[];
       allStyle.forEach(function(item){
         all_style_html.push(<option value={item.id}> {item.type_name} </option>);
       });
 
+
+      let all_fcolor_html =[];
+      fcolor.forEach(function(item){
+        all_fcolor_html.push(<option value={item.id}> {item.type_name} </option>);
+      });
       // console.log(errors);
     
 
@@ -194,12 +199,13 @@ class ModelDiamondCreate3 extends React.Component {
               <Row>
                 <Col sm={6}>
 
-                <label className="box_input">
+                 <label className="box_input">
                     <div className="nf7">鑽石形狀:</div>
                     <select  onChange={this.handleChange.bind(this, "dm_type")}  value={this.state.fields["dm_type"]} >
+                          <option>請選擇</option>
                             {all_style_html}               
                     </select>                         
-                    <div className={errors.hasOwnProperty('gia_sn')? 'dm_type shx':'error_text'} >{this.state.errors["dm_type"]}</div>
+                    <div className={errors.hasOwnProperty('dm_type')? 'dm_type shx':'error_text'} >{this.state.errors["dm_type"]}</div>
                   </label>                  
 
                   <label className="box_input">
@@ -216,8 +222,6 @@ class ModelDiamondCreate3 extends React.Component {
 
 
 
-
-
                   <label>
                     <div className="nf7">淨度:</div> 
                     <input type="text" onChange={this.handleChange.bind(this, "clean")} value={this.state.fields["clean"]} />
@@ -226,7 +230,17 @@ class ModelDiamondCreate3 extends React.Component {
 
 
                   <label className="box_input">
-                      <div className="nf7">顏色: </div>
+                    <div className="nf7">彩鑽顏色:</div>
+                    <select  onChange={this.handleChange.bind(this, "mcolor")}  value={this.state.fields["mcolor"]} >
+                            <option>請選擇</option>
+                            {all_fcolor_html}               
+                    </select>                         
+                    <div className={errors.hasOwnProperty('mcolor')? 'mcolor shx':'error_text'} >{this.state.errors["mcolor"]}</div>
+                  </label>   
+
+
+                  <label className="box_input">
+                      <div className="nf7">顏色敘述: </div>
                       <input type="text" onChange={this.handleChange.bind(this, "color")} value={this.state.fields["color"]} />
                       <span className="error_text" style={{color: "red"}}>{this.state.errors["color"]}</span>
                   </label> 

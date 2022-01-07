@@ -14,6 +14,8 @@ import  ModelDiamondEdit3 from './modal/ModelDiamondEdit3';
 import  OrderPanel from './order/OrderPanel';
 import { get_all_style } from './rest/func_rest_style';
 
+import { get_all_fcolor } from  './rest/func_rest_fcolor';
+
 
 /*  API */
 import { 
@@ -73,7 +75,8 @@ class Diamond3 extends React.Component {
           filterText:'',
           toggledClearRows: false,
           leftMenu:0,
-          allStyle:[]
+          allStyle:[],
+          fcolor:[]
         }
     }
 
@@ -95,6 +98,10 @@ class Diamond3 extends React.Component {
 
       get_all_style(function(res){
         me.setState({ allStyle:res });
+      });
+
+      get_all_fcolor(function(res){
+        me.setState({ fcolor:res });
       });
     }
 
@@ -257,7 +264,7 @@ class Diamond3 extends React.Component {
 
     render() {
 
-        const {data,checked,ptype,leftMenu,allStyle} = this.state;
+        const {data,checked,ptype,leftMenu,allStyle,fcolor} = this.state;
         // const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }];
         // console.log(data);
         
@@ -266,7 +273,7 @@ class Diamond3 extends React.Component {
         const columns = [
             
           {
-            cell: (pid) => (allStyle.length>0) ?<ModelDiamondEdit3 name="Edit"  allStyle={allStyle}  ptype={ptype}  pdata={pid}  fetch_all={me.fetch_all}   />:'',
+            cell: (pid) => (allStyle.length>0 && fcolor.length>0) ?<ModelDiamondEdit3 name="Edit"   fcolor={fcolor}  allStyle={allStyle}  ptype={ptype}  pdata={pid}  fetch_all={me.fetch_all}   />:'',
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -276,7 +283,7 @@ class Diamond3 extends React.Component {
           
           {
             name: '形狀',
-         //   selector: 'dm_type',
+            selector: 'dm_type',
             sortable: true,
             cell: (pid) => <>{ (allStyle.length>0) ? allStyle.filter(function(it){ return it.id==pid.dm_type })[0].type_name : '' }</>
             
@@ -302,8 +309,7 @@ class Diamond3 extends React.Component {
           {
             name: '顏色',
             selector: 'color',
-            sortable: true,           
-            cell: (pid) => <span className="small_font">D</span>  ,
+            sortable: true,                      
           },
 
           {
@@ -356,7 +362,7 @@ class Diamond3 extends React.Component {
             <Container id="aloha_app" >
 
                 <div className="small_nav">
-                    {(allStyle.length>0) ? <ModelDiamondCreate3 allStyle={allStyle} name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype}   fetch_all={this.fetch_all} />:''  }
+                    {(allStyle.length>0 && fcolor.length>0) ? <ModelDiamondCreate3  fcolor={fcolor}  allStyle={allStyle} name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype}   fetch_all={this.fetch_all} />:''  }
 
                     <button   class="btn btn-outline-dark mr10" onClick={()=>this.setState({'leftMenu': !this.state.leftMenu}) }>排序</button>
 
@@ -393,7 +399,7 @@ class Diamond3 extends React.Component {
                     </Card>
 
                     <div className="small_nav">
-                    {(allStyle.length>0) ? <ModelDiamondCreate3 allStyle={allStyle} name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype}   fetch_all={this.fetch_all} />:''  }
+                    {(allStyle.length>0 && fcolor.length>0) ? <ModelDiamondCreate3  fcolor={fcolor}  allStyle={allStyle} name="新增資料"   fetch_all={this.fetch_all }  ptype={ptype}   fetch_all={this.fetch_all} />:''  }
                     {( checked.length >0 )? <><Button onClick={this.deleteData} > 刪除  {this.state.checked.length} </Button>  </>:''}
                     
                 </div>
