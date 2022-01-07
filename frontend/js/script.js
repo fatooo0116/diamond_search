@@ -20,61 +20,249 @@
 
         
 
+
+
+
+
+
+
+
         if($("#table1").length>0){
 
-          
+
+            var pagination = function(data){
+
+                $(".data-container").pagination({
+                    dataSource: data,
+                    pageSize: 15,
+                    showPrevious: false,
+                    showNext: false,
+                    callback: function(response, pagination) {
+                        // template method of yourself
+                        var dataHtml = '';                
+                        $.each(response, function (index, item) {
+                            dataHtml += '<div class="xrow">'
+                            dataHtml += '<div class="t1"><div class="r_dm"></div></div>';
+                            dataHtml += '<div class="t2">' + item.item.gia_sn + '</div>';
+                            dataHtml += '<div class="t3">' + item.item.carat + '</div>';
+                            dataHtml += '<div class="t4">' + item.dm_color + '</div>';
+                            dataHtml += '<div class="t5">' + item.dm_clean + '</div>';
+                            dataHtml += '<div class="t6">' + item.item.depth + '</div>';
+                            dataHtml += '<div class="t7">' + item.item.face + '</div>';
+                            dataHtml += '<div class="t8">' + item.item.alight + '</div>';
+                            dataHtml += '<div class="t9">' + item.item.align + '</div>';
+                            dataHtml += '<div class="t10">' + item.item.turner + '</div>';
+                            dataHtml += '<div class="t11">' + item.item.blight + '</div>';
+                            dataHtml += '<div class="t12">' + item.item.star8 + '</div>';
+                            dataHtml += '<div class="t13">' + item.item.price + '</div>';
+                            dataHtml += '<div class="t14">' + item.item.is_buyable + '</div>';
+                            dataHtml += '</div>'
+                            dataHtml += '<div class="sub_row"><a href="'+item.item.gia_link+'"  target="_blank" class="ht1">GIA證書連結：' + item.item.gia_sn + '</a><span class="ht1">含稅價格：' + item.item.sale_price + '</span></div>';
+
+                        });
+                        
+                        $(".data-container").prev().html(dataHtml);
+                        $(".xrow").on('click',function(){
+                            $(this).next(".sub_row").toggleClass('open');
+                        });
+                    }
+                })
+            }
+
+
+
+            let data_source = '';
+            let data_origin = '';
 
             $.ajax({
                 type: "POST",
                 url: '/wp-json/cargo/v1/fe_get_diamonds',
                 data: {},
                 success: function(data){
-
-                    console.log(data);
-
-                    $(".data-container").pagination({
-                        dataSource: data,
-                        pageSize: 15,
-                        showPrevious: false,
-                        showNext: false,
-                        callback: function(response, pagination) {
-                            // template method of yourself
-                            var dataHtml = '';                
-                            $.each(response, function (index, item) {
-                                dataHtml += '<div class="xrow">'
-                                dataHtml += '<div class="t1"><div class="r_dm"></div></div>';
-                                dataHtml += '<div class="t2">' + item.item.gia_sn + '</div>';
-                                dataHtml += '<div class="t3">' + item.item.carat + '</div>';
-                                dataHtml += '<div class="t4">' + item.dm_color + '</div>';
-                                dataHtml += '<div class="t5">' + item.dm_clean + '</div>';
-                                dataHtml += '<div class="t6">' + item.item.depth + '</div>';
-                                dataHtml += '<div class="t7">' + item.item.face + '</div>';
-                                dataHtml += '<div class="t8">' + item.item.alight + '</div>';
-                                dataHtml += '<div class="t9">' + item.item.align + '</div>';
-                                dataHtml += '<div class="t10">' + item.item.turner + '</div>';
-                                dataHtml += '<div class="t11">' + item.item.blight + '</div>';
-                                dataHtml += '<div class="t12">' + item.item.star8 + '</div>';
-                                dataHtml += '<div class="t13">' + item.item.price + '</div>';
-                                dataHtml += '<div class="t14">' + item.item.is_buyable + '</div>';
-                                dataHtml += '</div>'
-                                dataHtml += '<div class="sub_row"><a href="'+item.item.gia_link+'"  target="_blank" class="ht1">GIA證書連結：' + item.item.gia_sn + '</a><span class="ht1">含稅價格：' + item.item.sale_price + '</span></div>';
-
-                            });
-                            
-                            $(".data-container").prev().html(dataHtml);
-                            $(".xrow").on('click',function(){
-                                $(this).next(".sub_row").toggleClass('open');
-                            });
-                        }
-                    })
+                    data_source = data;
+                    data_origin = data;                    
+                    pagination(data);                    
 
                 },                
               });
+
+
+
+            $("#table1 .carat li a").on('click',function(e){
+                e.preventDefault();
+                $(this).toggleClass('active');
+                // $(this).parent().siblings().find('a').removeClass('active');
+                // let fcolor = $(this).attr('target');                                                                     
+            });    
+
+
+
+
+            $("#table1 .color li a").on('click',function(e){
+                e.preventDefault();
+                $(this).toggleClass('active');
+    
+                // let fcolor = $(this).attr('target');                                                                     
+            });    
+
+
+
+            $("#table1 .clean li a").on('click',function(e){
+                e.preventDefault();
+                $(this).toggleClass('active');
+    
+                // let fcolor = $(this).attr('target');                                                                     
+            });     
+
+
+
+
+
+
+
+        $("#table1 .control a.clear").on('click',function(e){
+            e.preventDefault();
+
+            data_source = data_origin;
+            pagination(data_origin);
+            $("#price1").val('');
+            $("#price2").val('');
+            $("#table1 .carat li a").removeClass('active');
+            $("#table1 .color li a").removeClass('active');
+            $("#table1 .clean li a").removeClass('active');
+        });
+
+
+
+
+
+
+        /*  filter */
+        $("#table1 .control a.search").on('click',function(e){
+            e.preventDefault();
+
+            let all_types = [];
+            data_source = data_origin;;
+
+            let bottom_price = $("#price1").val();
+            let top_price =$("#price2").val();
+
+            /* mcolor */
+            $("#table1 .dm_style li a.active").each(function(){
+                all_types.push($(this).attr('target'));
+            });
+
+
+
+            let out = data_source;
+
+
+            
+            
+            
+            if(bottom_price){
+                out = out.filter(function(it){
+                    
+                    let sprice = it.item.sale_price.replace(/,/g, '');
+                    console.log(sprice);
+
+                    return parseInt(sprice) > parseInt(bottom_price);
+                });
+            }
+
+
+            if(top_price){
+                out = out.filter(function(it){
+                    
+                    let sprice = it.item.sale_price.replace(/,/g, '');                    
+                    return parseInt(sprice) < parseInt(top_price);
+                });
+            }
+
+
+          
+
+            pagination(out);
+        });              
+
+
         }
 
 
 
+/* ======================================= END  Table1 =======================================*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         if($("#table2").length>0){
+
+
+            var pagination = function(data){
+
+
+                $(".data-container").pagination({
+                    dataSource: data,
+                    pageSize: 15,
+                    showPrevious: false,
+                    showNext: false,
+                    callback: function(response, pagination) {
+                        // template method of yourself
+                        var dataHtml = '';                
+                        $.each(response, function (index, item) {
+                            dataHtml += '<div class="xrow">'
+                            dataHtml += '<div class="t1"><img src="'+item.dm_type_img+'" /></div>';
+                            dataHtml += '<div class="t2">' + item.item.gia_sn + '</div>';
+                            dataHtml += '<div class="t3">' + item.item.carat + '</div>';
+                            dataHtml += '<div class="t4">' + item.item.color + '</div>';
+                            dataHtml += '<div class="t5">' + item.item.clean + '</div>';
+                            dataHtml += '<div class="t6">' + item.item.depth + '</div>';
+                            dataHtml += '<div class="t7">' + item.item.face + '</div>';
+                            dataHtml += '<div class="t8">' + item.item.alight + '</div>';
+                            dataHtml += '<div class="t9">' + item.item.align + '</div>';
+                           // dataHtml += '<div class="t10">' + item.turner + '</div>';
+                            dataHtml += '<div class="t11">' + item.item.blight + '</div>';
+                           // dataHtml += '<div class="t12">' + item.star8 + '</div>';
+                            dataHtml += '<div class="t13">' + item.item.price + '</div>';
+                            dataHtml += '<div class="t14">' + item.item.is_buyable + '</div>';
+                            dataHtml += '</div>'
+                            dataHtml += '<div class="sub_row"><a href="'+item.item.gia_link+'"  target="_blank" class="ht1">GIA證書連結：' + item.item.gia_sn + '</a><span class="ht1">含稅價格：' + item.item.sale_price + '</span></div>';
+
+                        });
+                        
+                        $(".data-container").prev().html(dataHtml);
+                        
+                        $(".xrow").on('click',function(){
+                            $(this).next(".sub_row").toggleClass('open');
+                        });
+                    }
+                })                
+            };
+
+
+            let data_source = '';
+            let data_origin = '';
 
           
             $.ajax({
@@ -83,49 +271,109 @@
                 data: {},
                 success: function(data){
 
-                    console.log(data);
+                    data_source = data;
+                    data_origin = data;
+                    pagination(data);
 
-                    $(".data-container").pagination({
-                        dataSource: data,
-                        pageSize: 15,
-                        showPrevious: false,
-                        showNext: false,
-                        callback: function(response, pagination) {
-                            // template method of yourself
-                            var dataHtml = '';                
-                            $.each(response, function (index, item) {
-                                dataHtml += '<div class="xrow">'
-                                dataHtml += '<div class="t1"><img src="'+item.dm_type_img+'" /></div>';
-                                dataHtml += '<div class="t2">' + item.item.gia_sn + '</div>';
-                                dataHtml += '<div class="t3">' + item.item.carat + '</div>';
-                                dataHtml += '<div class="t4">' + item.item.color + '</div>';
-                                dataHtml += '<div class="t5">' + item.item.clean + '</div>';
-                                dataHtml += '<div class="t6">' + item.item.depth + '</div>';
-                                dataHtml += '<div class="t7">' + item.item.face + '</div>';
-                                dataHtml += '<div class="t8">' + item.item.alight + '</div>';
-                                dataHtml += '<div class="t9">' + item.item.align + '</div>';
-                               // dataHtml += '<div class="t10">' + item.turner + '</div>';
-                                dataHtml += '<div class="t11">' + item.item.blight + '</div>';
-                               // dataHtml += '<div class="t12">' + item.star8 + '</div>';
-                                dataHtml += '<div class="t13">' + item.item.price + '</div>';
-                                dataHtml += '<div class="t14">' + item.item.is_buyable + '</div>';
-                                dataHtml += '</div>'
-                                dataHtml += '<div class="sub_row"><a href="'+item.item.gia_link+'"  target="_blank" class="ht1">GIA證書連結：' + item.item.gia_sn + '</a><span class="ht1">含稅價格：' + item.item.sale_price + '</span></div>';
-
-                            });
-                            
-                            $(".data-container").prev().html(dataHtml);
-                            
-                            $(".xrow").on('click',function(){
-                                $(this).next(".sub_row").toggleClass('open');
-                            });
-                        }
-                    })
-
-                },                
+                }              
               });
 
+
+              $("#table2 .dm_style li a").on('click',function(e){
+                e.preventDefault();
+                $(this).toggleClass('active');
+
+                // let fcolor = $(this).attr('target');                                                                     
+            });
+
+
+
+            /*  reset  */
+            $("#table2 .control a.clear").on('click',function(e){
+                e.preventDefault();
+
+                data_source = data_origin;
+                pagination(data_origin);
+                $("#price1").val('');
+                $("#price2").val('');
+                $("#table3 .fcolor li a").removeClass('active');
+            });
+            
+            /*  filter */
+            $("#table2 .control a.search").on('click',function(e){
+                e.preventDefault();
+
+                let all_types = [];
+                data_source = data_origin;;
+
+                let bottom_price = $("#price1").val();
+                let top_price =$("#price2").val();
+
+                /* mcolor */
+                $("#table2 .dm_style li a.active").each(function(){
+                    all_types.push($(this).attr('target'));
+                });
+
+                
+
+                let out = [];
+                if(all_types.length>0){
+                    data_source.forEach(function(it){                        
+                        if(all_types.includes(it.item.dm_type)){
+                            out.push(it);
+                        }
+                    });
+                    
+                }else{
+                    out = data_source;
+                }
+
+
+                
+                
+                if(bottom_price){
+                    out = out.filter(function(it){
+                        
+                        let sprice = it.item.sale_price.replace(/,/g, '');
+                        console.log(sprice);
+
+                        return parseInt(sprice) > parseInt(bottom_price);
+                    });
+                }
+
+
+                if(top_price){
+                    out = out.filter(function(it){
+                        
+                        let sprice = it.item.sale_price.replace(/,/g, '');                    
+                        return parseInt(sprice) < parseInt(top_price);
+                    });
+                }
+
+
+              
+
+                pagination(out);
+            });
+
+
         }
+
+
+
+
+
+
+/* ======================================= END  Table2 =======================================*/
+
+
+
+
+
+
+
+
+
 
 
 
@@ -141,6 +389,8 @@
 
             /*  Get All Data */
             var pagination = function(data){
+
+
                 $(".data-container").pagination({
                     dataSource: data,
                     pageSize: 15,
@@ -194,9 +444,12 @@
                 success: function(data){
                     data_source = data;
                     data_origin = data;
+
                     pagination(data_source);
                 }
             });
+
+
 
 
             $("#table3 .fcolor li a").on('click',function(e){
@@ -214,7 +467,9 @@
 
 
             /*  reset  */
-            $("#table3 .control a.clear").on('click',function(){
+            $("#table3 .control a.clear").on('click',function(e){
+                e.preventDefault();
+
                 data_source = data_origin;
                 pagination(data_origin);
                 $("#price1").val('');
@@ -223,22 +478,58 @@
             });
             
             /*  filter */
-            $("#table3 .control a.search").on('click',function(){
+            $("#table3 .control a.search").on('click',function(e){
+                e.preventDefault();
 
                 let mcolor = [];
                 data_source = data_origin;;
 
-                let bottom_rice = $("#price1").val();
-                let Top_price =$("#price2").val();
+                let bottom_price = $("#price1").val();
+                let top_price =$("#price2").val();
 
                 /* mcolor */
                 $("#table3 .fcolor li a.active").each(function(){
                     mcolor.push($(this).attr('target'));
                 });
 
-                
+                let out = [];
+                if(mcolor.length>0){
+                    data_source.forEach(function(it){                        
+                        if(mcolor.includes(it.item.mcolor)){
+                            out.push(it);
+                        }
+                    });
+                    
+                }else{
+                    out = data_source;
+                }
 
-                pagination(data_source);
+
+                
+                
+                if(bottom_price){
+                    out = out.filter(function(it){
+                        
+                        let sprice = it.item.sale_price.replace(/,/g, '');
+                        console.log(sprice);
+
+                        return parseInt(sprice) > parseInt(bottom_price);
+                    });
+                }
+
+
+                if(top_price){
+                    out = out.filter(function(it){
+                        
+                        let sprice = it.item.sale_price.replace(/,/g, '');                    
+                        return parseInt(sprice) < parseInt(top_price);
+                    });
+                }
+
+
+                console.log(mcolor);
+
+                pagination(out);
             });
 
 

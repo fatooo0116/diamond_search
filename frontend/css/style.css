@@ -232,6 +232,11 @@
     font-family: Arial;
     font-size: 13px;;
 }
+
+.filter2 .color > ul > li a.active{
+    border-color: #694327; ;
+}
+
 .diamond_search .carat ul li a.active{
     border-color: #694327; ;
 }
@@ -267,6 +272,11 @@
     justify-content: center;
     background: linear-gradient(to bottom, #fafafa 50%,#e6e6e6 100%);
 }
+.diamond_search .filter2 .clean ul li a.active{
+    border-color: #694327; ;
+    color: #694327
+}
+
 .diamond_search .filter2 .clean ul li a:hover{
     border-color: #694327; ;
     color: #694327;
